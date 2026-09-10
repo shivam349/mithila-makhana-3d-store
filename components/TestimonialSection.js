@@ -62,6 +62,7 @@ export default function TestimonialSection() {
 
   return (
     <section
+      id="reviews"
       ref={containerRef}
       className="py-16 sm:py-20 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100"
     >

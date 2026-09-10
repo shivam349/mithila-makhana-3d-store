@@ -66,7 +66,7 @@ export default function HeroSection() {
       ref={heroRef}
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, #FFF8F0 0%, #FDF2E6 50%, #E8B896 100%)',
+        background: 'linear-gradient(135deg, #FFFDF9 0%, #FFF8F0 55%, #F7EEDB 100%)',
       }}
     >
       {/* Decorative elements */}
@@ -80,19 +80,21 @@ export default function HeroSection() {
           <div>
             <h1
               ref={titleRef}
-              className="text-5xl lg:text-7xl font-bold text-gray-900 leading-tight"
+              className="text-5xl lg:text-7xl font-serif font-bold text-earth-900 leading-tight"
             >
               Premium Mithila Makhana
             </h1>
-            <p className="text-makhana-600 font-semibold text-xl mt-2">Healthy Snack from Bihar</p>
+            <p className="text-makhana-700 font-medium text-xl mt-2 tracking-wide">
+              Traditional Lotus Seeds from Bihar
+            </p>
           </div>
 
           {/* Subheading */}
           <p
             ref={subtitleRef}
-            className="text-lg text-gray-700 max-w-lg leading-relaxed"
+            className="text-lg text-earth-700 max-w-lg leading-relaxed font-normal"
           >
-            Handpicked foxnuts from the fertile lands of Mithila. Roasted fresh, packed with nutrition, and delivered to your door.
+            Handpicked foxnuts from the fertile wetland floodplains of Mithila. Naturally popped, slow dry-roasted with zero oil, and delivered fresh to your door.
           </p>
 
           {/* CTA Buttons */}
@@ -101,10 +103,10 @@ export default function HeroSection() {
             className="flex flex-wrap gap-4 pt-4"
           >
             <Link href="#products" className="btn-primary">
-              Shop Now
+              Shop Collection
             </Link>
-            <Link href="#about" className="btn-secondary">
-              Explore Collection
+            <Link href="#brand-story" className="btn-secondary">
+              Our Heritage
             </Link>
           </div>
 

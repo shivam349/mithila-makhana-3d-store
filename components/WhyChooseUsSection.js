@@ -55,6 +55,7 @@ export default function WhyChooseUsSection() {
 
   return (
     <section
+      id="why-choose"
       ref={sectionRef}
       className="py-16 sm:py-20 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100"
     >

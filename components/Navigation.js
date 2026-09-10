@@ -85,6 +85,12 @@ export default function Navigation() {
               Products
             </Link>
             <Link
+              href="/#build-box"
+              className="text-earth-700 hover:text-makhana-600 transition-colors font-medium text-sm"
+            >
+              Build Box
+            </Link>
+            <Link
               href="/#brand-story"
               className="text-earth-700 hover:text-makhana-600 transition-colors font-medium text-sm"
             >
@@ -95,6 +101,12 @@ export default function Navigation() {
               className="text-earth-700 hover:text-makhana-600 transition-colors font-medium text-sm"
             >
               Journey
+            </Link>
+            <Link
+              href="/engineering"
+              className="text-makhana-700 hover:text-makhana-900 transition-colors font-semibold text-xs px-2.5 py-1 bg-makhana-50 rounded-lg border border-makhana-200"
+            >
+              Engineering
             </Link>
 
             {/* Admin Authentication */}
@@ -184,6 +196,13 @@ export default function Navigation() {
               Products
             </Link>
             <Link
+              href="/#build-box"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-earth-800 font-medium py-1"
+            >
+              Build Box
+            </Link>
+            <Link
               href="/#brand-story"
               onClick={() => setMobileMenuOpen(false)}
               className="block text-earth-800 font-medium py-1"
@@ -196,6 +215,13 @@ export default function Navigation() {
               className="block text-earth-800 font-medium py-1"
             >
               Journey
+            </Link>
+            <Link
+              href="/engineering"
+              onClick={() => setMobileMenuOpen(false)}
+              className="block text-makhana-700 font-semibold py-1"
+            >
+              Architecture & Engineering
             </Link>
             <div className="pt-2 border-t border-earth-100">
               <AuthButtons />

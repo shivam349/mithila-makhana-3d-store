@@ -46,7 +46,7 @@ export default function NutritionVisualizer() {
   const calories = Math.round(347 * multiplier);
 
   return (
-    <section className="py-20 bg-white border-t border-earth-100">
+    <section id="nutrition" className="py-20 bg-white border-t border-earth-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">

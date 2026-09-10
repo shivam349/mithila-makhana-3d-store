@@ -61,7 +61,7 @@ export default function CinematicMithilaStory() {
   ];
 
   return (
-    <section className="py-24 bg-earth-950 text-white relative overflow-hidden">
+    <section id="brand-story" className="py-24 bg-earth-950 text-white relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         {/* Section Header */}
         <div className="max-w-3xl mb-16 space-y-3">

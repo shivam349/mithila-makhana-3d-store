@@ -60,7 +60,7 @@ export default function TasteJourney() {
   const current = flavors[selectedFlavor];
 
   return (
-    <section className="py-20 bg-[#FFFDF9] border-t border-earth-100">
+    <section id="taste" className="py-20 bg-[#FFFDF9] border-t border-earth-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">

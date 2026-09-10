@@ -7,11 +7,7 @@ import Link from 'next/link';
 
 export default function HeroSection() {
   const heroRef = useRef(null);
-  const titleRef = useRef(null);
-  const subtitleRef = useRef(null);
-  const ctaRef = useRef(null);
-  const badgesRef = useRef(null);
-  const imageRef = useRef(null);
+  const contentRef = useRef(null);
 
   useEffect(() => {
     // Respect reduced motion preference
@@ -19,54 +15,13 @@ export default function HeroSection() {
     if (prefersReducedMotion) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-
-      tl.from(titleRef.current, {
+      // Single subtle entrance animation (600ms), static thereafter
+      gsap.from(contentRef.current, {
         opacity: 0,
-        y: 30,
-        duration: 0.8,
+        y: 20,
+        duration: 0.6,
         ease: 'power2.out',
-      })
-        .from(
-          subtitleRef.current,
-          {
-            opacity: 0,
-            y: 20,
-            duration: 0.6,
-            ease: 'power2.out',
-          },
-          '-=0.4'
-        )
-        .from(
-          ctaRef.current,
-          {
-            opacity: 0,
-            y: 15,
-            duration: 0.6,
-            ease: 'power2.out',
-          },
-          '-=0.3'
-        )
-        .from(
-          badgesRef.current,
-          {
-            opacity: 0,
-            y: 15,
-            duration: 0.6,
-            ease: 'power2.out',
-          },
-          '-=0.3'
-        )
-        .from(
-          imageRef.current,
-          {
-            opacity: 0,
-            scale: 0.98,
-            duration: 0.6,
-            ease: 'power2.out',
-          },
-          '-=0.4'
-        );
+      });
     }, heroRef);
 
     return () => ctx.revert();
@@ -75,92 +30,83 @@ export default function HeroSection() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden"
-      style={{
-        background: 'linear-gradient(135deg, #FFFDF9 0%, #FFF8F0 55%, #F7EEDB 100%)',
-      }}
+      className="relative w-full min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] flex items-center overflow-hidden pt-20 sm:pt-24 pb-12 sm:pb-16"
     >
-      {/* Decorative ambient lighting elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-makhana-400/15 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute bottom-0 right-10 w-96 h-96 bg-makhana-400/10 rounded-full blur-3xl pointer-events-none" />
+      {/* 1. Full-bleed background hero image spanning entire viewport width */}
+      <div className="absolute inset-0 w-full h-full">
+        <Image
+          src="/images/hero/mithila-makhana-hero.webp"
+          alt="Premium Mithila Makhana"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[80%_center] sm:object-[82%_center] lg:object-right"
+        />
+      </div>
 
-      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10 pt-28 pb-16 lg:py-24">
-        {/* Left content */}
-        <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
-          {/* Main headline */}
+      {/* 2. Soft readability gradient: left-side warm cream wash to keep text crisp, transparent on right */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'linear-gradient(90deg, rgba(255,253,249,0.96) 0%, rgba(255,253,249,0.90) 35%, rgba(255,253,249,0.72) 55%, rgba(255,253,249,0.20) 78%, rgba(255,253,249,0) 100%)',
+        }}
+      />
+      {/* Mobile/tablet ambient wash */}
+      <div className="absolute inset-0 lg:hidden pointer-events-none bg-gradient-to-b from-white/50 via-transparent to-white/30" />
+
+      {/* 3. Hero content placed directly over the image on the LEFT */}
+      <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">
+        <div ref={contentRef} className="max-w-[560px] space-y-6 text-left">
+          {/* Category tag & Main headline */}
           <div>
-            <span className="inline-block text-xs font-bold tracking-widest uppercase text-makhana-700 bg-makhana-50 px-3.5 py-1 rounded-full border border-makhana-200/80 mb-3">
+            <span className="inline-block text-xs font-bold tracking-widest uppercase text-makhana-800 bg-makhana-100/90 px-3.5 py-1 rounded-full border border-makhana-300/80 mb-3 shadow-2xs">
               100% ORGANIC LOTUS SEEDS
             </span>
-            <h1
-              ref={titleRef}
-              className="text-4xl sm:text-5xl lg:text-7xl font-serif font-bold text-earth-900 leading-tight"
-            >
-              Premium Mithila Makhana
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-earth-950 leading-[1.15]">
+              Premium <br />
+              Mithila <br />
+              Makhana
             </h1>
-            <p className="text-makhana-700 font-medium text-lg sm:text-xl mt-2 tracking-wide">
+            <p className="text-makhana-800 font-semibold text-lg sm:text-xl mt-3 tracking-wide">
               Traditional Foxnuts Direct from Bihar
             </p>
           </div>
 
           {/* Subheading */}
-          <p
-            ref={subtitleRef}
-            className="text-base sm:text-lg text-earth-700 max-w-lg mx-auto lg:mx-0 leading-relaxed font-normal"
-          >
+          <p className="text-base sm:text-lg text-earth-800 leading-relaxed font-normal">
             Handpicked foxnuts from the fertile wetland floodplains of Mithila. Naturally popped, slow dry-roasted with zero oil, and delivered fresh to your door.
           </p>
 
           {/* CTA Buttons */}
-          <div
-            ref={ctaRef}
-            className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2"
-          >
+          <div className="flex flex-wrap gap-4 pt-1">
             <Link href="#products" className="btn-primary">
               Shop Collection
             </Link>
-            <Link href="#brand-story" className="btn-secondary">
+            <Link href="#brand-story" className="btn-secondary bg-white/80 backdrop-blur-xs">
               Our Heritage
             </Link>
           </div>
 
           {/* Trust Badges */}
-          <div
-            ref={badgesRef}
-            className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4 max-w-md mx-auto lg:mx-0"
-          >
-            <div className="badge justify-center text-xs py-2 px-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-3">
+            <div className="badge justify-center text-xs py-2 px-3 bg-white/85 backdrop-blur-xs border border-earth-200/80">
               <span className="text-base">🌿</span>
               <span>100% Natural</span>
             </div>
-            <div className="badge justify-center text-xs py-2 px-3">
+            <div className="badge justify-center text-xs py-2 px-3 bg-white/85 backdrop-blur-xs border border-earth-200/80">
               <span className="text-base">💪</span>
               <span>High Protein</span>
             </div>
-            <div className="badge justify-center text-xs py-2 px-3">
+            <div className="badge justify-center text-xs py-2 px-3 bg-white/85 backdrop-blur-xs border border-earth-200/80">
               <span className="text-base">🚜</span>
               <span>Farm Fresh</span>
             </div>
-            <div className="badge justify-center text-xs py-2 px-3">
+            <div className="badge justify-center text-xs py-2 px-3 bg-white/85 backdrop-blur-xs border border-earth-200/80">
               <span className="text-base">🏠</span>
               <span>Made in Bihar</span>
             </div>
           </div>
-        </div>
-
-        {/* Right Visual: Static Hero Image */}
-        <div
-          ref={imageRef}
-          className="relative w-full max-w-lg lg:max-w-none h-[340px] sm:h-[420px] lg:h-[480px] rounded-3xl overflow-hidden shadow-2xl border border-makhana-200/60 bg-sky-100"
-        >
-          <Image
-            src="/images/hero/mithila-makhana-hero.webp"
-            alt="Mithila Makhana customer satisfaction"
-            fill
-            priority
-            className="object-cover object-[75%_center] sm:object-center"
-            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
-          />
         </div>
       </div>
     </section>

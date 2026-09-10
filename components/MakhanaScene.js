@@ -2,61 +2,51 @@
 
 import { useState, useEffect } from 'react';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { isWebGLAvailable } from '@/lib/webglUtils';
+import MobileHeroImage from './viewers/MobileHeroImage';
+import TabletHeroCSSViewer from './viewers/TabletHeroCSSViewer';
 
-// Dynamically import desktop 3D component so Three.js bundle is NOT loaded on mobile/tablet (<= 768px)
+// Dynamically import desktop 3D component ONLY for desktop (> 1024px).
+// Tablet and mobile never load or evaluate Three.js / React Three Fiber.
 const DesktopHeroScene = dynamic(() => import('./3d/DesktopHeroScene'), {
   ssr: false,
-  loading: () => <StaticHeroImage />,
+  loading: () => <MobileHeroImage />,
 });
 
-function StaticHeroImage() {
-  return (
-    <div className="relative w-full h-full min-h-[300px] flex items-center justify-center overflow-hidden rounded-3xl">
-      <Image
-        src="/images/hero/mithila-makhana-hero.webp"
-        alt="Premium Mithila Makhana"
-        fill
-        className="object-cover"
-        priority
-        unoptimized
-      />
-      <div className="absolute inset-0 bg-gradient-to-t from-earth-950/40 via-transparent to-transparent" />
-      <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur-sm text-earth-800 text-[11px] font-semibold px-3 py-1 rounded-full border border-earth-200 shadow-2xs">
-        ✨ Pure Handpicked Harvest
-      </div>
-    </div>
-  );
-}
-
 export default function MakhanaScene({ classNameProp = '' }) {
-  // Initial state is strictly false to ensure SSR and initial render never mount Three.js
-  const [isDesktop3D, setIsDesktop3D] = useState(false);
+  // Device tier: 'mobile' (<= 768px) | 'tablet' (769px - 1024px) | 'desktop' (> 1024px)
+  // Default to 'mobile' on SSR to guarantee zero heavy Three.js initialization
+  const [deviceTier, setDeviceTier] = useState('mobile');
 
   useEffect(() => {
-    const checkIsDesktop = () => {
-      // RULE: width <= 768px is Mobile/Tablet -> STRICTLY static product image, NO Three.js
-      // Only width > 768px with WebGL support loads Desktop 3D
-      const isDesktop = window.innerWidth > 768;
-      if (isDesktop && isWebGLAvailable()) {
-        setIsDesktop3D(true);
+    const updateDeviceTier = () => {
+      const width = window.innerWidth;
+      // FINAL HERO DEVICE STRATEGY:
+      // > 1024px: Desktop 3D scene (Three.js/Fiber if WebGL supported)
+      // 769px - 1024px: Tablet CSS Depth Viewer (CSS 3D transforms, zero WebGL)
+      // <= 768px: Mobile static hero image (pure CSS entrance, zero WebGL)
+      if (width > 1024 && isWebGLAvailable()) {
+        setDeviceTier('desktop');
+      } else if (width > 768) {
+        setDeviceTier('tablet');
       } else {
-        setIsDesktop3D(false);
+        setDeviceTier('mobile');
       }
     };
 
-    checkIsDesktop();
-    window.addEventListener('resize', checkIsDesktop);
-    return () => window.removeEventListener('resize', checkIsDesktop);
+    updateDeviceTier();
+    window.addEventListener('resize', updateDeviceTier);
+    return () => window.removeEventListener('resize', updateDeviceTier);
   }, []);
 
   return (
     <div className={`w-full h-full rounded-3xl overflow-hidden ${classNameProp}`}>
-      {isDesktop3D ? (
-        <DesktopHeroScene fallback={<StaticHeroImage />} />
+      {deviceTier === 'desktop' ? (
+        <DesktopHeroScene fallback={<TabletHeroCSSViewer />} />
+      ) : deviceTier === 'tablet' ? (
+        <TabletHeroCSSViewer />
       ) : (
-        <StaticHeroImage />
+        <MobileHeroImage />
       )}
     </div>
   );

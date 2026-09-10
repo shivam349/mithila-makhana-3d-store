@@ -1,83 +1,104 @@
 'use client';
 
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
-import { OrbitControls, Float, Sparkles } from '@react-three/drei';
+import * as THREE from 'three';
 import CanvasErrorBoundary from './CanvasErrorBoundary';
 
-function MakhanaKernel() {
+function PremiumMakhanaHeroModel() {
   const meshRef = useRef();
+  const groupRef = useRef();
 
   useFrame((state) => {
+    // 1. Slow, elegant continuous rotation
     if (meshRef.current) {
-      meshRef.current.rotation.x += 0.008;
-      meshRef.current.rotation.y += 0.012;
-      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.22;
+      meshRef.current.rotation.y += 0.003;
+      meshRef.current.rotation.x = Math.sin(state.clock.elapsedTime * 0.3) * 0.05;
+      // 2. Subtle, natural vertical float (just a few pixels)
+      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.7) * 0.08;
+    }
+
+    // 5. Subtle mouse parallax lerping (disabled on touch/extreme angles)
+    if (groupRef.current) {
+      const targetRotationX = -state.pointer.y * 0.15;
+      const targetRotationY = state.pointer.x * 0.22;
+      groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.04);
+      groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.04);
     }
   });
 
   return (
-    <Float speed={2} rotationIntensity={1.2} floatIntensity={1}>
-      <mesh ref={meshRef}>
-        {/* Detail 2 generates an organic, smooth kernel with ~80 polygons instead of 1.3 million */}
-        <icosahedronGeometry args={[1.2, 2]} />
-        <meshPhongMaterial
-          color="#f59e0b"
-          emissive="#d97706"
-          emissiveIntensity={0.6}
-          shininess={100}
+    <group ref={groupRef}>
+      {/* 4. Soft realistic contact shadow beneath product */}
+      <mesh position={[0, -1.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+        <circleGeometry args={[1.15, 32]} />
+        <meshBasicMaterial color="#2A170B" opacity={0.14} transparent />
+      </mesh>
+
+      {/* Main Artisan Makhana Kernel (Optimized Detail 2 Geometry) */}
+      <mesh ref={meshRef} position={[0, 0, 0]}>
+        <icosahedronGeometry args={[1.35, 2]} />
+        {/* Soft, premium natural organic food material - no neon/glow */}
+        <meshStandardMaterial
+          color="#FFFDF7"
+          roughness={0.65}
+          metalness={0.05}
+          bumpScale={0.05}
         />
       </mesh>
-    </Float>
-  );
-}
-
-function SurroundingParticles() {
-  return (
-    <group>
-      <Float speed={1.8} rotationIntensity={0.8} position={[-2.5, 1.8, -1.8]}>
-        <mesh>
-          <sphereGeometry args={[0.38, 14, 14]} />
-          <meshPhongMaterial color="#f97316" emissive="#ea580c" emissiveIntensity={0.4} />
-        </mesh>
-      </Float>
-
-      <Float speed={1.6} rotationIntensity={0.8} position={[2.5, -1, -2]}>
-        <mesh>
-          <sphereGeometry args={[0.42, 14, 14]} />
-          <meshPhongMaterial color="#fb923c" emissive="#f97316" emissiveIntensity={0.4} />
-        </mesh>
-      </Float>
-
-      <Float speed={2} rotationIntensity={1} position={[1, 2.2, -1.5]}>
-        <mesh>
-          <sphereGeometry args={[0.3, 14, 14]} />
-          <meshPhongMaterial color="#fed7aa" emissive="#f97316" emissiveIntensity={0.3} />
-        </mesh>
-      </Float>
-
-      <Float speed={1.4} rotationIntensity={0.6} position={[-1.8, -1.8, -1]}>
-        <mesh>
-          <sphereGeometry args={[0.26, 14, 14]} />
-          <meshPhongMaterial color="#fbbf24" emissive="#f59e0b" emissiveIntensity={0.3} />
-        </mesh>
-      </Float>
-
-      <Float speed={1.9} rotationIntensity={0.9} position={[1.8, 1, -2]}>
-        <mesh>
-          <sphereGeometry args={[0.35, 14, 14]} />
-          <meshPhongMaterial color="#f97316" emissive="#d97706" emissiveIntensity={0.4} />
-        </mesh>
-      </Float>
     </group>
   );
 }
 
+// 3. Soft Studio Light Rig simulating premium product photography
+function StudioLighting() {
+  const lightRef = useRef();
+
+  useFrame((state) => {
+    if (lightRef.current) {
+      // Gentle subtle moving highlight across the surface
+      lightRef.current.position.x = 4 + Math.sin(state.clock.elapsedTime * 0.4) * 1.2;
+      lightRef.current.position.y = 5 + Math.cos(state.clock.elapsedTime * 0.3) * 0.8;
+    }
+  });
+
+  return (
+    <>
+      {/* Soft warm ambient fill */}
+      <ambientLight intensity={0.9} color="#FFFBF0" />
+
+      {/* Primary key light - soft warm photographic studio light */}
+      <directionalLight
+        ref={lightRef}
+        position={[4, 5, 5]}
+        intensity={1.2}
+        color="#FFF9E6"
+      />
+
+      {/* Gentle cool fill light for photographic contrast */}
+      <directionalLight position={[-4, -2, 3]} intensity={0.4} color="#E8EDF5" />
+
+      {/* Subtle warm rim light to define kernel contours */}
+      <pointLight position={[0, -3, -3]} intensity={0.5} color="#F5DCC8" />
+    </>
+  );
+}
+
 export default function DesktopHeroScene({ fallback = null }) {
+  const [reducedMotion, setReducedMotion] = useState(false);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReducedMotion(mediaQuery.matches);
+    const handler = (e) => setReducedMotion(e.matches);
+    mediaQuery.addEventListener('change', handler);
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, []);
+
   return (
     <CanvasErrorBoundary fallback={fallback}>
       <Canvas
-        camera={{ position: [0, 0, 5.5], fov: 50 }}
+        camera={{ position: [0, 0, 4.8], fov: 42 }}
         style={{ width: '100%', height: '100%' }}
         gl={{
           antialias: true,
@@ -86,18 +107,8 @@ export default function DesktopHeroScene({ fallback = null }) {
         }}
         dpr={[1, 2]}
       >
-        <ambientLight intensity={0.75} />
-        <pointLight position={[8, 8, 8]} intensity={1.1} />
-        <pointLight position={[-8, -8, 8]} intensity={0.8} color="#f59e0b" />
-        <pointLight position={[0, 0, 3]} intensity={0.7} color="#fbbf24" />
-
-        <group>
-          <MakhanaKernel />
-          <SurroundingParticles />
-          <Sparkles count={40} scale={4.5} size={2.2} speed={0.3} color="#fbbf24" />
-        </group>
-
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={3} />
+        <StudioLighting />
+        <PremiumMakhanaHeroModel />
       </Canvas>
     </CanvasErrorBoundary>
   );

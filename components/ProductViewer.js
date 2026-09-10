@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from 'react';
 import dynamic from 'next/dynamic';
-import Image from 'next/image';
 import { isWebGLAvailable } from '@/lib/webglUtils';
+import MobileProductImage from './viewers/MobileProductImage';
+import TabletProductCSSViewer from './viewers/TabletProductCSSViewer';
 
 const PRODUCT_ASSETS = {
   classic: {
@@ -33,7 +34,8 @@ const PRODUCT_ASSETS = {
   },
 };
 
-// Dynamically import desktop 3D viewer component so Three.js bundle is NOT loaded or initialized on mobile/tablet (<= 768px)
+// Dynamically import desktop 3D viewer component ONLY for desktop (> 1024px).
+// Tablet and mobile never load or evaluate Three.js / React Three Fiber.
 const DesktopProduct3DViewer = dynamic(() => import('./3d/DesktopProduct3DViewer'), {
   ssr: false,
   loading: () => null,
@@ -44,9 +46,10 @@ export default function ProductViewer({
   color = '#C67C2E',
   classNameProp = '',
 }) {
-  // Mobile / tablet starts with isDesktop = false (no Three.js)
-  const [isDesktop, setIsDesktop] = useState(false);
-  const [viewMode, setViewMode] = useState('3d'); // '3d' | 'photo'
+  // Device tier: 'mobile' (<= 768px) | 'tablet' (769px - 1024px) | 'desktop' (> 1024px)
+  // Default to 'mobile' on SSR to ensure zero heavy initialization
+  const [deviceTier, setDeviceTier] = useState('mobile');
+  const [viewMode, setViewMode] = useState('3d'); // '3d' | 'photo' (desktop only)
   const [autoRotate, setAutoRotate] = useState(true);
   const [activeHotspot, setActiveHotspot] = useState(null);
   const [zoomAction, setZoomAction] = useState(null);
@@ -86,20 +89,24 @@ export default function ProductViewer({
   ];
 
   useEffect(() => {
-    const checkViewport = () => {
-      // REQUIREMENT: width <= 768px is strictly Mobile/Tablet -> DO NOT initialize Three.js
-      // Only width > 768px with WebGL support loads Desktop 3D
-      const desktop = window.innerWidth > 768;
-      if (desktop && isWebGLAvailable()) {
-        setIsDesktop(true);
+    const updateDeviceTier = () => {
+      const width = window.innerWidth;
+      // FINAL DEVICE STRATEGY:
+      // > 1024px: Desktop (Three.js 3D if WebGL supported)
+      // 769px - 1024px: Tablet (CSS 3D perspective transforms, zero WebGL)
+      // <= 768px: Mobile (Static local product image + CSS transitions, zero WebGL)
+      if (width > 1024 && isWebGLAvailable()) {
+        setDeviceTier('desktop');
+      } else if (width > 768) {
+        setDeviceTier('tablet');
       } else {
-        setIsDesktop(false);
+        setDeviceTier('mobile');
       }
     };
 
-    checkViewport();
-    window.addEventListener('resize', checkViewport);
-    return () => window.removeEventListener('resize', checkViewport);
+    updateDeviceTier();
+    window.addEventListener('resize', updateDeviceTier);
+    return () => window.removeEventListener('resize', updateDeviceTier);
   }, []);
 
   const handleZoom = (action) => {
@@ -115,34 +122,18 @@ export default function ProductViewer({
     setActiveHotspot(null);
   };
 
-  // Static product photo view (Primary on mobile/tablet <= 768px, switchable on PC)
-  const renderStaticPhoto = (
-    <div className="relative w-full h-full min-h-[380px] bg-gradient-to-br from-[#FFFDF9] via-[#FFF8F0] to-[#F7EEDB] flex items-center justify-center p-6">
-      <div className="relative w-full max-w-[340px] aspect-square rounded-2xl overflow-hidden shadow-md border border-earth-200/80 bg-white">
-        <Image
-          src={asset.image}
-          alt={asset.name}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, 50vw"
-          priority
-          unoptimized
-        />
-        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-[11px] font-bold text-earth-800 px-3 py-1 rounded-full border border-earth-200 shadow-2xs">
-          Pure Mithila Harvest
-        </div>
-      </div>
-    </div>
-  );
+  const isDesktop = deviceTier === 'desktop';
+  const isTablet = deviceTier === 'tablet';
+  const isMobile = deviceTier === 'mobile';
 
-  // Strictly check if 3D should be rendered (MUST be desktop > 768px)
-  const shouldRender3D = isDesktop && viewMode === '3d';
+  // Desktop 3D render condition
+  const shouldRenderDesktop3D = isDesktop && viewMode === '3d';
 
   return (
     <div className={`relative w-full h-full flex flex-col ${classNameProp}`}>
       {/* Viewer Canvas / Photo Area */}
       <div className="relative flex-1 w-full h-full min-h-[380px]">
-        {shouldRender3D ? (
+        {shouldRenderDesktop3D ? (
           <>
             <DesktopProduct3DViewer
               product={product}
@@ -150,7 +141,7 @@ export default function ProductViewer({
               autoRotate={autoRotate}
               zoomAction={zoomAction}
               controlsRef={controlsRef}
-              fallback={renderStaticPhoto}
+              fallback={<TabletProductCSSViewer asset={asset} />}
             />
 
             {/* Desktop Floating Controls Overlay */}
@@ -197,11 +188,13 @@ export default function ProductViewer({
               </button>
             </div>
           </>
+        ) : isTablet ? (
+          <TabletProductCSSViewer asset={asset} />
         ) : (
-          renderStaticPhoto
+          <MobileProductImage asset={asset} />
         )}
 
-        {/* View Toggle on Desktop (3D vs Studio Photo) */}
+        {/* View Toggle on Desktop Only (> 1024px: 3D vs Studio Photo) */}
         {isDesktop && (
           <div className="absolute top-4 left-4 z-20 flex items-center bg-white/90 backdrop-blur-md p-1 rounded-xl border border-earth-200 shadow-sm">
             <button

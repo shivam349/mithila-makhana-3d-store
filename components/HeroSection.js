@@ -2,11 +2,8 @@
 
 import { useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Image from 'next/image';
 import Link from 'next/link';
-import MakhanaScene from './MakhanaScene';
-
-gsap.registerPlugin(ScrollTrigger);
 
 export default function HeroSection() {
   const heroRef = useRef(null);
@@ -14,7 +11,7 @@ export default function HeroSection() {
   const subtitleRef = useRef(null);
   const ctaRef = useRef(null);
   const badgesRef = useRef(null);
-  const sceneRef = useRef(null);
+  const imageRef = useRef(null);
 
   useEffect(() => {
     // Respect reduced motion preference
@@ -61,28 +58,15 @@ export default function HeroSection() {
           '-=0.3'
         )
         .from(
-          sceneRef.current,
+          imageRef.current,
           {
             opacity: 0,
-            scale: 0.96,
-            duration: 0.8,
+            scale: 0.98,
+            duration: 0.6,
             ease: 'power2.out',
           },
-          '-=0.5'
+          '-=0.4'
         );
-
-      // Parallax scroll effect only on desktop
-      if (window.innerWidth > 768) {
-        gsap.to(sceneRef.current, {
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top center',
-            end: 'bottom center',
-            scrub: 1,
-          },
-          y: -40,
-        });
-      }
     }, heroRef);
 
     return () => ctx.revert();
@@ -164,12 +148,19 @@ export default function HeroSection() {
           </div>
         </div>
 
-        {/* Right Visual / 3D Scene Area */}
+        {/* Right Visual: Static Hero Image */}
         <div
-          ref={sceneRef}
-          className="h-[360px] sm:h-[440px] lg:h-[560px] w-full max-w-lg mx-auto lg:max-w-none rounded-3xl overflow-hidden shadow-xl border border-makhana-200/60 relative bg-gradient-to-br from-[#FFFDF9] via-[#FFF8F0] to-[#F7EEDB]"
+          ref={imageRef}
+          className="relative w-full max-w-lg lg:max-w-none h-[340px] sm:h-[420px] lg:h-[480px] rounded-3xl overflow-hidden shadow-2xl border border-makhana-200/60 bg-sky-100"
         >
-          <MakhanaScene classNameProp="h-full" />
+          <Image
+            src="/images/hero/mithila-makhana-hero.webp"
+            alt="Mithila Makhana customer satisfaction"
+            fill
+            priority
+            className="object-cover object-[75%_center] sm:object-center"
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 600px"
+          />
         </div>
       </div>
     </section>

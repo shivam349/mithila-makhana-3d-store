@@ -10,56 +10,53 @@ export default function MakhanaSizeLab() {
     jumbo: {
       id: 'jumbo',
       label: 'JUMBO',
-      gradeTag: 'Grade 1 Premium',
+      gradeTag: 'Grade 1 Selection',
       kernelScale: 'w-24 h-24 sm:w-28 sm:h-28',
       visualSize: 'Extra Large Puff',
-      texture: 'Maximum puff volume with an ultra-light, melt-in-mouth crispness.',
+      texture: 'Maximum puff volume with an ultra-light, crisp melt-in-mouth texture.',
       bestUse: 'Festive snacking, luxury gifting, and standalone roasted crunch with pink salt.',
       productLink: '/product/premium',
       productName: 'Premium Organic Jumbo',
-      price: '₹399',
-      features: ['Airiest texture', 'Hand-graded uniform kernels', 'Zero broken pieces'],
+      features: ['Airiest puff volume', 'Hand-sorted uniform kernels', 'Zero broken pieces'],
     },
     premium: {
       id: 'premium',
       label: 'PREMIUM',
-      gradeTag: 'Grade 2 Classic',
+      gradeTag: 'Grade 2 Selection',
       kernelScale: 'w-20 h-20 sm:w-22 sm:h-22',
       visualSize: 'Balanced Medium-Large',
-      texture: 'Balanced density and crisp bite that holds aromatic spices thoroughly.',
-      bestUse: 'Daily high-protein afternoon snacking, tea-time crunch, and flavored roasts.',
+      texture: 'Consistent density and satisfying crunch that holds natural spice seasonings.',
+      bestUse: 'Daily afternoon snacking, tea-time crunch, and flavored savory roasts.',
       productLink: '/product/classic',
       productName: 'Classic & Masala Makhana',
-      price: '₹249',
-      features: ['Consistent crunch', 'Perfect seasoning retention', 'Daily health fuel'],
+      features: ['Balanced crisp crunch', 'Optimal spice absorption', 'Everyday wholesome snacking'],
     },
     standard: {
       id: 'standard',
       label: 'STANDARD',
-      gradeTag: 'Grade 3 Everyday',
+      gradeTag: 'Grade 3 Selection',
       kernelScale: 'w-16 h-16 sm:w-18 sm:h-18',
       visualSize: 'Traditional Natural Puff',
       texture: 'Compact, firm crunch with traditional earthy nuttiness.',
-      bestUse: 'Makhana kheer, roasted savory trail mixes, curries, and wholesome soups.',
+      bestUse: 'Traditional makhana kheer, roasted savory trail mixes, curries, and soups.',
       productLink: '/product/classic',
       productName: 'Everyday Roasted Makhana',
-      price: '₹249',
-      features: ['Authentic natural size', 'Fast roasting absorption', 'High fiber density'],
+      features: ['Natural harvest size', 'Quick roasting absorption', 'High fiber density'],
     },
   };
 
   const active = grades[selectedGrade];
 
   return (
-    <section id="size-lab" className="py-20 bg-[#FFFDF9] border-t border-earth-100">
+    <section id="grade-guide" className="py-20 bg-[#FFFDF9] border-t border-earth-100">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
           <span className="inline-block text-[11px] font-bold tracking-widest uppercase text-makhana-700 bg-makhana-50 px-3 py-1 rounded-full border border-makhana-200">
-            PRODUCT EDUCATION
+            GRADE GUIDE
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-earth-900 tracking-tight">
-            Makhana Size Lab
+            Makhana Grade Guide
           </h2>
           <p className="text-sm text-earth-600">
             Compare kernel grades to find your ideal balance of volume, crispness, and texture.
@@ -87,11 +84,11 @@ export default function MakhanaSizeLab() {
           })}
         </div>
 
-        {/* Visual Lab Card */}
+        {/* Visual Grade Card */}
         <div className="max-w-4xl mx-auto bg-white rounded-3xl p-6 sm:p-10 border border-earth-200/80 shadow-sm grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
           {/* Visual Kernel Display (5 cols) */}
           <div className="md:col-span-5 flex flex-col items-center justify-center p-8 bg-makhana-50/50 rounded-2xl border border-makhana-100 min-h-[260px] text-center relative overflow-hidden">
-            {/* Animated/Scaled Visual Kernel */}
+            {/* Visual Kernel Representation */}
             <div
               className={`${active.kernelScale} rounded-full bg-gradient-to-br from-white via-makhana-100 to-makhana-200 shadow-md flex items-center justify-center border-2 border-makhana-300 transition-all duration-500 transform`}
             >
@@ -108,7 +105,7 @@ export default function MakhanaSizeLab() {
             </div>
           </div>
 
-          {/* Detailed Attributes (7 cols) */}
+          {/* Detailed Verified Attributes (7 cols) */}
           <div className="md:col-span-7 space-y-5">
             <div>
               <span className="text-xs font-semibold text-earth-500 uppercase tracking-wider">

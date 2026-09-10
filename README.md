@@ -1,271 +1,120 @@
-# Mithila Makhana 3D E-Commerce Website
+# Mithila Makhana — Direct-to-Consumer (D2C) Storefront
 
-<div align="center">
+[![Live Demo](https://img.shields.io/badge/Live%20Storefront-mithilla--makkhana.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mithilla-makkhana.vercel.app/)
+[![Next.js 14](https://img.shields.io/badge/Next.js-14.2.35-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3.4.14-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
 
-[![Live Demo](https://img.shields.io/badge/Live%20Demo-mithilla--makkhana.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mithilla-makkhana.vercel.app/)
-
-</div>
-
-A premium 3D e-commerce website for selling authentic Mithila makhana (lotus seeds) using cutting-edge web technologies.
-
-## 🎯 Features
-
-### 3D Visualization
-- **Three.js Integration**: Beautiful 3D product visualization with interactive controls
-- **React Three Fiber**: Seamless integration of 3D graphics with React components
-- **Custom Product Viewers**: Unique 3D representations for each product variant
-- **Particles & Effects**: Sparkles, floating elements, and animated particles
-
-### Scroll Animations
-- **GSAP AnimationLibrary**: Smooth scroll-triggered animations throughout the pages
-- **Parallax Effects**: Dynamic parallax scrolling on hero sections
-- **Staggered Animations**: Sequential animations on product cards and features
-- **Interactive Hover Effects**: Engaging hover animations on buttons and cards
-
-### Contemporary Design
-- **Tailwind CSS**: Modern, responsive, and utility-first styling
-- **Gradient Backgrounds**: Beautiful color gradients and backgrounds
-- **Mobile Responsive**: Fully responsive design for all devices
-- **Dark/Light Optimized**: Clean color palette optimized for readability
-
-## 🏗️ Project Structure
-
-```
-codex1/
-├── app/
-│   ├── globals.css           # Global styles and animations
-│   ├── layout.js             # Root layout
-│   ├── page.js               # Home page
-│   └── product/
-│       └── [product]/
-│           └── page.js       # Product detail pages
-├── components/
-│   ├── Navigation.js         # Fixed navigation header
-│   ├── HeroSection.js        # Hero section with 3D scene
-│   ├── ProductShowcase.js    # Product grid with animations
-│   ├── ProductDetail.js      # Product information page
-│   ├── ProductViewer.js      # 3D product viewer component
-│   ├── SpecialOffersSection.js # Promotional offers
-│   ├── BenefitsSection.js    # Product benefits showcase
-│   ├── TestimonialSection.js # Customer testimonials
-│   ├── CTASection.js         # Call-to-action section
-│   ├── MakhanaScene.js       # Main 3D scene
-│   └── Footer.js             # Footer component
-├── package.json              # Dependencies
-├── tailwind.config.js        # Tailwind configuration
-└── next.config.mjs           # Next.js configuration
-```
-
-## 📦 Dependencies
-
-### Core Technologies
-- **Next.js 14.2.5**: React framework with server-side rendering
-- **React 18.3.1**: UI library
-- **Three.js 0.169.0**: 3D graphics library
-- **@react-three/fiber 8.17.10**: React renderer for Three.js
-- **@react-three/drei 9.120.4**: Useful helpers for React Three Fiber
-
-### Animation & Styling
-- **GSAP 3.12.5**: Professional animation library for scroll triggers
-- **Tailwind CSS 3.4.14**: Utility-first CSS framework
-- **PostCSS 8.4.47**: CSS transformation tool
-
-## 🚀 Getting Started
-
-### Installation
-
-```bash
-# Clone the repository
-git clone <repository-url>
-cd codex1
-
-# Install dependencies
-npm install
-```
-
-### Development Server
-
-```bash
-# Start the development server
-npm run dev
-
-# The application will be available at http://localhost:3000
-```
-
-### Build for Production
-
-```bash
-# Create production build
-npm run build
-
-# Start production server
-npm start
-```
-
-## 🎨 Key Components
-
-### MakhanaScene Component
-The main 3D visualization component featuring:
-- Interactive 3D makhana kernels
-- Surrounding particle effects
-- Sparkle animations
-- Auto-rotating orbitcontrols
-
-### HeroSection Component
-Features:
-- Full-width hero with 3D scene
-- Scroll parallax effects
-- Call-to-action buttons
-- Feature highlights
-
-### ProductShowcase Component
-Includes:
-- Grid of product cards
-- GSAP scroll animations
-- Product features and ratings
-- Links to detailed product pages
-
-### ProductDetail Component
-Provides:
-- Large 3D product viewer
-- Detailed product information
-- Size and quantity selection
-- Nutrition facts
-- Feature highlights
-
-### Scroll Animations
-All sections use GSAP ScrollTrigger for:
-- Fade-in animations on scroll
-- Parallax movement
-- Staggered card animations
-- Interactive hover effects
-
-## 🎨 Color Scheme
-
-The website uses a premium warm color palette:
-- **Primary**: Amber (#f59e0b) and Orange (#f97316)
-- **Secondary**: Orange (#fb923c) and Golden (#fbbf24)
-- **Backgrounds**: Soft amber and orange gradients
-- **Text**: Dark gray and amber tones
-
-## 📱 Responsive Design
-
-- **Mobile**: Single column layout with optimized touch interactions
-- **Tablet**: Two-column layouts
-- **Desktop**: Full multi-column grid with enhanced animations
-
-## 🔧 Customization
-
-### Adding New Products
-Edit `/app/product/[product]/page.js` and add new product entries:
-
-```javascript
-const products = {
-  newProduct: {
-    id: 4,
-    name: 'New Product Name',
-    price: 599,
-    // ... other properties
-  }
-};
-```
-
-### Modifying 3D Effects
-Edit `/components/MakhanaScene.js` or `/components/ProductViewer.js` to:
-- Change particle colors
-- Adjust animation speeds
-- Modify geometry shapes
-- Add new lighting effects
-
-### Tailoring Animations
-In any component, import GSAP and customize:
-```javascript
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-gsap.registerPlugin(ScrollTrigger);
-
-gsap.from(element, {
-  scrollTrigger: { trigger: element, start: 'top 80%' },
-  // ... animation properties
-});
-```
-
-## 📊 Performance Optimization
-
-- Lazy loading of 3D components
-- Optimized animations with GPU acceleration
-- Tailwind CSS purging for minimal bundle
-- Next.js automatic code splitting
-
-## 🌐 Browser Support
-
-- Chrome/Edge (latest)
-- Firefox (latest)
-- Safari (latest)
-- Mobile browsers (iOS Safari, Chrome Mobile)
-
-## 📚 API & Routes
-
-### Pages
-- `/` - Home page with all sections
-- `/product/[product]` - Product detail page
-  - `/product/classic` - Classic Makhana
-  - `/product/masala` - Masala Makhana
-  - `/product/premium` - Premium Organic
-
-## 🎯 Features Implemented
-
-- ✅ 3D product visualization with Three.js
-- ✅ Smooth scroll animations with GSAP
-- ✅ Responsive design with Tailwind CSS
-- ✅ Product showcase with animations
-- ✅ Product detail pages with custom 3D viewers
-- ✅ Special offers section
-- ✅ Customer testimonials
-- ✅ Benefits & features showcase
-- ✅ Navigation with scroll effects
-- ✅ Call-to-action sections
-- ✅ Modern footer
-
-## 📝 Future Enhancements
-
-- Shopping cart functionality
-- User authentication
-- Payment gateway integration
-- Order tracking system
-- Customer reviews & ratings
-- Blog section
-- Search & filtering
-- Wishlist feature
-- Email notifications
-
-## 🐛 Troubleshooting
-
-### 3D Scene Not Rendering
-- Check browser WebGL support
-- Ensure Canvas component is properly mounted
-- Verify Three.js version compatibility
-
-### Animations Not Playing
-- Check GSAP is properly registered with ScrollTrigger
-- Verify element refs are correctly set
-- Check browser console for errors
-
-### Styling Issues
-- Clear Tailwind cache: `npm run build`
-- Verify tailwind.config.js configuration
-- Check for conflicting CSS classes
-
-## 📄 License
-
-This project is available for commercial and personal use.
-
-## 👨‍💻 Author
-
-Created with ❤️ using modern web technologies.
+A premium Direct-to-Consumer (D2C) e-commerce storefront for authentic GI-tagged **Mithila Makhana** (foxnuts / lotus seeds) harvested directly from the wetland floodplains of North Bihar.
 
 ---
 
-**Version**: 1.0.0
-**Last Updated**: February 2026
+## 🌾 Business & Product Overview
+
+Mithila Makhana brings clean, slow dry-roasted, zero-oil popped lotus seeds directly from farm to table. 
+
+- **Protected GI Provenance:** Harvested by indigenous communities in North Bihar.
+- **Zero-Oil Roasting:** 100% dry-roasted without palm oil, preservatives, or chemical additives.
+- **Nutrient-Dense:** High natural plant protein, rich dietary fiber, and naturally gluten-free.
+
+---
+
+## ⚡ Key Features
+
+- **Full-Bleed Hero Experience:** Full-width high-resolution product photography with subtle entrance animation and contrast-engineered typography.
+- **Instant Product Catalog:** Instant initial render powered by local production assets with background API sync and 3-second timeout protection.
+- **Interactive 3D Product Inspection (Desktop):** Interactive 3D kernel models with OrbitControls, zoom bounds, and studio lighting (loaded strictly for desktop viewports > 1024px).
+- **Responsive 3-Tier Device Architecture:**
+  - **Desktop (> 1024px):** Interactive Three.js / React Three Fiber product viewer.
+  - **Tablet (769px–1024px):** Lightweight CSS 3D perspective transforms (zero WebGL overhead).
+  - **Mobile (≤ 768px):** Clean static WebP images and micro-tilt interactions (zero Three.js bundle loading, zero WebGL context crashes).
+- **Deterministic Product Discovery:** "What Are You in the Mood For?" filter helping customers select snacks by taste profile.
+- **Build Your Makhana Box:** Interactive 4-pack custom bundle builder with live price calculation and cart synchronization.
+- **Makhana Grade Guide:** Clear visual education comparing Jumbo, Premium, and Standard kernel varieties.
+- **Nutrition at a Glance:** Dual-portion (30g / 100g) verified nutritional breakdown.
+- **Instant Slide-Over Cart & Quick Buy:** Cart management with real-time subtotal calculations and single-click checkout trigger.
+- **Serverless Order Notification:** Completed orders dispatch directly to merchant email (`shivamgarg1515@gmail.com`) via Web3Forms with anti-spam botcheck and idempotency guards.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Framework:** Next.js 14.2 (App Router, React 18, SSR / SSG)
+- **Styling:** Vanilla Tailwind CSS with custom earth/makhana brand tokens
+- **Animation:** GSAP (GreenSock) for scroll-triggered micro-interactions
+- **3D Graphics (Desktop):** Three.js, React Three Fiber, React Three Drei
+- **Order Dispatch:** Web3Forms Serverless Webhook API
+- **Deployment:** Vercel CI/CD Pipeline
+
+---
+
+## 📐 Architecture & Engineering Decisions
+
+```
+Homepage (app/page.js)
+├── 1. HeroSection (Full-width static image + contrast gradient)
+├── 2. ProductShowcase (Instant local catalog + API sync)
+├── 3. ChooseYourMakhana (Deterministic taste finder)
+├── 4. BuildYourBox (4-pack bundle builder)
+├── 5. MakhanaSizeLab (Makhana Grade Guide)
+├── 6. NutritionVisualizer (Nutrition at a Glance)
+├── 7. WhyChooseUsSection (GI origin & clean roasting promise)
+├── 8. FromMithilaToYourTable (5-stage editorial farm-to-home journey)
+├── 9. TestimonialSection (Customer reviews)
+├── 10. FAQSection (Verified sourcing, roasting, & delivery Q&A)
+├── 11. WhyMithilaSection (Cultural heritage narrative)
+├── 12. CTABanner (Direct conversion bridge)
+└── 13. Footer (Shop, policies, legal, engineering link)
+```
+
+For full architectural documentation, visit [`/engineering`](https://mithilla-makkhana.vercel.app/engineering) on the live deployment.
+
+---
+
+## 🚀 Local Development
+
+### Prerequisites
+- Node.js 18.17+
+- npm 9+
+
+### Setup
+
+```bash
+# Clone repository
+git clone https://github.com/shivam349/mithila-makhana-3d-store.git
+cd mithila-makhana-3d-store
+
+# Install dependencies
+npm install
+
+# Run local development server
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+### Production Build & Linting
+
+```bash
+# Verify ESLint (0 errors target)
+npm run lint
+
+# Compile Next.js production build
+npm run build
+
+# Run local production server
+npm start
+```
+
+---
+
+## 🚢 Deployment
+
+The repository is linked with Vercel for automatic continuous deployment:
+- **Production URL:** [https://mithilla-makkhana.vercel.app/](https://mithilla-makkhana.vercel.app/)
+- Pushes to the `main` branch trigger automated builds and zero-downtime rollouts.
+
+---
+
+## 📄 License & Attribution
+
+© 2026 Mithila Makhana. All rights reserved. Handpicked and direct from North Bihar, India.

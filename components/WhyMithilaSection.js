@@ -1,8 +1,8 @@
-'use client';
+import Image from 'next/image';
 
 export default function WhyMithilaSection() {
   return (
-    <section className="py-20 bg-white border-t border-earth-100 relative overflow-hidden">
+    <section id="brand-story" className="py-20 bg-white border-t border-earth-100 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Left Narrative */}
@@ -13,10 +13,10 @@ export default function WhyMithilaSection() {
               </span>
               <div className="pt-1">
                 <h2 className="text-3xl sm:text-4xl font-serif font-bold text-earth-900 tracking-tight">
-                  Mithila
+                  Mithila Heritage
                 </h2>
                 <p className="text-base sm:text-lg font-medium text-makhana-700">
-                  Bihar, India
+                  North Bihar, India
                 </p>
               </div>
             </div>
@@ -48,13 +48,12 @@ export default function WhyMithilaSection() {
           {/* Right Photographic Visual */}
           <div className="lg:col-span-5 relative">
             <div className="relative rounded-3xl overflow-hidden shadow-xl border-4 border-white aspect-[4/3] bg-makhana-50">
-              <img
-                src="/images/hero/mithila-makhana-hero.webp"
+              <Image
+                src="/images/products/premium-organic.webp"
                 alt="Authentic Mithila Makhana Harvest"
-                className="w-full h-full object-cover"
-                onError={(e) => {
-                  e.target.src = '/images/hero/mithila-makhana-hero.png';
-                }}
+                fill
+                className="object-cover"
+                sizes="(max-width: 1024px) 100vw, 40vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-earth-950/60 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 text-white">

@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function NutritionVisualizer() {
   const [servingSize, setServingSize] = useState('100g'); // '100g' | '30g'
 
-  // Verified facts from repository: 347 kcal, 14.5g protein, 63.1g carbs, 4.2g fiber, 3.2g fat per 100g
+  // Verified facts: 347 kcal, 14.5g protein, 63.1g carbs, 4.2g fiber, 3.2g fat per 100g
   const multiplier = servingSize === '30g' ? 0.3 : 1;
 
   const nutrients = [
@@ -13,23 +13,23 @@ export default function NutritionVisualizer() {
       label: 'Plant Protein',
       amount: (14.5 * multiplier).toFixed(1),
       unit: 'g',
-      percentage: Math.min(100, (14.5 * multiplier * 4)),
-      tag: 'Muscle Support',
+      percentage: Math.min(100, 14.5 * multiplier * 4),
+      tag: 'Natural Protein',
       barColor: 'bg-makhana-600',
     },
     {
       label: 'Dietary Fiber',
       amount: (4.2 * multiplier).toFixed(1),
       unit: 'g',
-      percentage: Math.min(100, (4.2 * multiplier * 7)),
-      tag: 'Digestive Health',
+      percentage: Math.min(100, 4.2 * multiplier * 7),
+      tag: 'Wholesome Fiber',
       barColor: 'bg-emerald-600',
     },
     {
       label: 'Carbohydrates',
       amount: (63.1 * multiplier).toFixed(1),
       unit: 'g',
-      percentage: Math.min(100, (63.1 * multiplier * 1.2)),
+      percentage: Math.min(100, 63.1 * multiplier * 1.2),
       tag: 'Complex Energy',
       barColor: 'bg-amber-600',
     },
@@ -37,7 +37,7 @@ export default function NutritionVisualizer() {
       label: 'Healthy Fats',
       amount: (3.2 * multiplier).toFixed(1),
       unit: 'g',
-      percentage: Math.min(100, (3.2 * multiplier * 6)),
+      percentage: Math.min(100, 3.2 * multiplier * 6),
       tag: 'Naturally Low Fat',
       barColor: 'bg-earth-600',
     },
@@ -51,10 +51,10 @@ export default function NutritionVisualizer() {
         {/* Section Heading */}
         <div className="text-center max-w-2xl mx-auto mb-12 space-y-2">
           <span className="inline-block text-[11px] font-bold tracking-widest uppercase text-makhana-700 bg-makhana-50 px-3 py-1 rounded-full border border-makhana-200">
-            NUTRITION PROFILE
+            NUTRITIONAL FACTS
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-earth-900 tracking-tight">
-            Nutrition Visualizer
+            Nutrition at a Glance
           </h2>
           <p className="text-sm text-earth-600">
             Wholesome plant-based nourishment, naturally slow-roasted with zero oil.
@@ -92,63 +92,74 @@ export default function NutritionVisualizer() {
 
         {/* Visual Cards Grid */}
         <div className="max-w-4xl mx-auto bg-[#FFFDF9] rounded-3xl p-6 sm:p-10 border border-earth-200/80 shadow-sm space-y-8">
-          {/* Calorie Hero Card */}
+          {/* Calorie Card */}
           <div className="p-6 rounded-2xl bg-white border border-earth-200 text-center space-y-1 shadow-2xs">
             <span className="text-[10px] font-bold tracking-widest uppercase text-earth-500">
               ENERGY VALUE ({servingSize})
             </span>
             <div className="flex items-baseline justify-center gap-2">
-              <span className="font-serif font-bold text-4xl sm:text-5xl text-makhana-800">
+              <span className="font-serif font-bold text-4xl sm:text-5xl text-earth-900">
                 {calories}
               </span>
-              <span className="text-sm font-semibold text-earth-600">Calories (kcal)</span>
+              <span className="text-sm font-semibold text-earth-600">kcal</span>
             </div>
+            <p className="text-xs text-earth-500">
+              Light and naturally satisfying energy without frying or added oil.
+            </p>
           </div>
 
-          {/* Visual Nutrient Bars */}
-          <div className="space-y-4">
-            {nutrients.map((item) => (
-              <div key={item.label} className="bg-white p-4 rounded-xl border border-earth-100 space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <div className="flex items-center gap-2">
-                    <span className="font-semibold text-earth-900">{item.label}</span>
-                    <span className="text-[10px] text-earth-500 bg-earth-50 px-2 py-0.5 rounded border border-earth-200">
-                      {item.tag}
-                    </span>
+          {/* Macronutrient Bars */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {nutrients.map((n) => (
+              <div
+                key={n.label}
+                className="bg-white p-5 rounded-2xl border border-earth-200 shadow-2xs space-y-3"
+              >
+                <div className="flex justify-between items-baseline">
+                  <div>
+                    <h3 className="font-serif font-bold text-sm text-earth-900">{n.label}</h3>
+                    <span className="text-[10px] font-semibold text-earth-500">{n.tag}</span>
                   </div>
-                  <span className="font-bold text-earth-900 text-sm">
-                    {item.amount}{item.unit}
-                  </span>
+                  <div className="text-right">
+                    <span className="font-serif font-bold text-lg text-earth-900">
+                      {n.amount}
+                    </span>
+                    <span className="text-xs font-semibold text-earth-600 ml-0.5">{n.unit}</span>
+                  </div>
                 </div>
 
-                {/* Progress Bar */}
+                {/* Progress bar */}
                 <div className="w-full h-2 bg-earth-100 rounded-full overflow-hidden">
                   <div
-                    className={`h-full ${item.barColor} transition-all duration-500 rounded-full`}
-                    style={{ width: `${item.percentage}%` }}
+                    className={`h-full ${n.barColor} transition-all duration-500 rounded-full`}
+                    style={{ width: `${n.percentage}%` }}
                   />
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Natural Purity Highlights */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs pt-2 border-t border-earth-200/60">
-            <div className="p-3 bg-white rounded-xl border border-earth-100">
-              <p className="font-bold text-earth-900">0%</p>
-              <p className="text-earth-500 text-[11px] mt-0.5">Deep Frying</p>
+          {/* Clean Quality Guarantees */}
+          <div className="pt-4 border-t border-earth-200/70 grid grid-cols-2 sm:grid-cols-4 gap-3 text-center">
+            <div className="p-2">
+              <span className="text-lg block">🌱</span>
+              <span className="text-[11px] font-bold text-earth-900 block mt-1">Zero Trans Fat</span>
+              <span className="text-[10px] text-earth-500">Naturally clean</span>
             </div>
-            <div className="p-3 bg-white rounded-xl border border-earth-100">
-              <p className="font-bold text-earth-900">100%</p>
-              <p className="text-earth-500 text-[11px] mt-0.5">Plant Based</p>
+            <div className="p-2">
+              <span className="text-lg block">🔥</span>
+              <span className="text-[11px] font-bold text-earth-900 block mt-1">Slow Dry-Roasted</span>
+              <span className="text-[10px] text-earth-500">Zero cooking oil</span>
             </div>
-            <div className="p-3 bg-white rounded-xl border border-earth-100">
-              <p className="font-bold text-earth-900">Zero</p>
-              <p className="text-earth-500 text-[11px] mt-0.5">Added Preservatives</p>
+            <div className="p-2">
+              <span className="text-lg block">🌾</span>
+              <span className="text-[11px] font-bold text-earth-900 block mt-1">Naturally Gluten-Free</span>
+              <span className="text-[10px] text-earth-500">100% lotus seed</span>
             </div>
-            <div className="p-3 bg-white rounded-xl border border-earth-100">
-              <p className="font-bold text-earth-900">Rich</p>
-              <p className="text-earth-500 text-[11px] mt-0.5">Natural Minerals</p>
+            <div className="p-2">
+              <span className="text-lg block">🚫</span>
+              <span className="text-[11px] font-bold text-earth-900 block mt-1">No Preservatives</span>
+              <span className="text-[10px] text-earth-500">Purity assured</span>
             </div>
           </div>
         </div>

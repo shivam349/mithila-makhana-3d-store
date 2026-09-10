@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin-login
+
+Sitemap: https://mithilla-makkhana.vercel.app/sitemap.xml

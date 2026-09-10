@@ -12,11 +12,11 @@ export default function ChooseYourMakhana() {
 
   const preferences = [
     { id: 'all', label: 'ALL SNACKS' },
-    { id: 'crunchy', label: 'CRUNCHY' },
+    { id: 'light', label: 'LIGHT & SIMPLE' },
     { id: 'spicy', label: 'SPICY' },
     { id: 'sweet', label: 'SWEET' },
-    { id: 'light', label: 'LIGHT' },
     { id: 'premium', label: 'PREMIUM' },
+    { id: 'build-box', label: 'BUILD A BOX', isLink: true, href: '#build-box' },
   ];
 
   const products = [
@@ -82,16 +82,27 @@ export default function ChooseYourMakhana() {
             DISCOVERY
           </span>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-earth-900 tracking-tight">
-            Choose Your Makhana
+            What Are You in the Mood For?
           </h2>
           <p className="text-sm text-earth-600">
-            What kind of snack are you looking for today?
+            Select your flavor mood or build your own custom box.
           </p>
         </div>
 
         {/* Deterministic Filter Pills */}
         <div className="flex flex-wrap justify-center gap-2 mb-10">
           {preferences.map((pref) => {
+            if (pref.isLink) {
+              return (
+                <a
+                  key={pref.id}
+                  href={pref.href}
+                  className="px-4 py-2 rounded-xl text-xs font-semibold tracking-wider transition-all border bg-earth-900 text-white hover:bg-black border-earth-900 shadow-xs"
+                >
+                  [ {pref.label} ]
+                </a>
+              );
+            }
             const isSelected = activePreference === pref.id;
             return (
               <button

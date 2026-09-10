@@ -137,7 +137,7 @@ export default function HeroSection() {
           ref={sceneRef}
           className="h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl relative"
           style={{
-            backgroundImage: 'url(https://res.cloudinary.com/dgvlnob4f/image/upload/v1770471076/mithila-makhana/yfym8zzxcnqlq31aispc.jpg)',
+            backgroundImage: 'url(/images/hero/mithila-makhana-hero.webp)',
             backgroundSize: 'cover',
             backgroundPosition: 'center',
           }}

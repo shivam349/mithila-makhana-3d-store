@@ -12,21 +12,14 @@ import { defaultProducts } from '@/lib/productImages';
 gsap.registerPlugin(ScrollTrigger);
 
 // Fallback product image
-const FALLBACK_IMAGE = 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="400"%3E%3Crect fill="%23e0e9f5" width="400" height="400"/%3E%3Ctext x="50%" y="50%" font-family="Arial" font-size="24" fill="%231e40af" text-anchor="middle" dominant-baseline="middle" text-transform="uppercase"%3EMakhana Image%3C/text%3E%3C/svg%3E';
+const FALLBACK_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23FDF2E6'/%3E%3Ccircle cx='200' cy='180' r='60' fill='%23E8B896'/%3E%3Ctext x='200' y='280' font-family='sans-serif' font-size='22' font-weight='bold' fill='%238B5E34' text-anchor='middle'%3EMithila Makhana%3C/text%3E%3C/svg%3E";
 
 export default function ProductShowcase() {
-  const [products, setProducts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [imageErrors, setImageErrors] = useState({});
-  const containerRef = useRef(null);
-  const cardsRef = useRef([]);
-  const { addToCart } = useCart();
-
   // Ensure product has all required fields
   const enrichProduct = (product) => {
     return {
       ...product,
-      image: product.image || FALLBACK_IMAGE,
+      image: product.image || '/images/products/classic-makhana.webp',
       imageFallback: product.imageFallback || FALLBACK_IMAGE,
       _id: product._id || product.id || Math.random(),
       name: product.name || 'Makhana Product',
@@ -37,28 +30,40 @@ export default function ProductShowcase() {
     };
   };
 
-  // Fetch products from API
+  // Instant optimistic render: never block the user on cold-starting Render backend
+  const [products, setProducts] = useState(() => defaultProducts.map(enrichProduct));
+  const [loading, setLoading] = useState(false);
+  const [imageErrors, setImageErrors] = useState({});
+  const containerRef = useRef(null);
+  const cardsRef = useRef([]);
+  const { addToCart } = useCart();
+
+  // Fetch products from API with 3-second timeout protection
   useEffect(() => {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3000);
+
     const fetchProducts = async () => {
       try {
-        const result = await getProducts();
+        const result = await getProducts({ signal: controller.signal });
+        clearTimeout(timeoutId);
         if (result && result.length > 0) {
-          // Enrich API products with fallback values
           setProducts(result.map(enrichProduct));
-        } else {
-          // Use default products if API returns empty
-          setProducts(defaultProducts.map(enrichProduct));
         }
       } catch (error) {
-        console.error('Failed to fetch products:', error);
-        // Fallback to default products with proper images
-        setProducts(defaultProducts.map(enrichProduct));
+        // Backend sleeping or network delay: continue using instant local products
+        console.log('Rendering with cached default products:', error.message);
       } finally {
         setLoading(false);
       }
     };
 
     fetchProducts();
+
+    return () => {
+      clearTimeout(timeoutId);
+      controller.abort();
+    };
   }, []);
 
   const handleImageError = (productId) => {
@@ -148,7 +153,8 @@ export default function ProductShowcase() {
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     loading="lazy"
-                    quality={75}
+                    quality={85}
+                    unoptimized={true}
                   />
                   <div className="absolute top-2 right-2 bg-makhana-500 text-white px-3 py-1 rounded-full text-sm font-medium">
                     {product.category}

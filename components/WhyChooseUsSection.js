@@ -57,11 +57,11 @@ export default function WhyChooseUsSection() {
     <section
       id="why-choose"
       ref={sectionRef}
-      className="py-16 sm:py-20 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100"
+      className="pt-16 pb-8 sm:pt-20 sm:pb-10 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-12 space-y-2">
+        <div className="text-center mb-8 sm:mb-10 space-y-2">
           <span className="inline-block text-[11px] font-bold tracking-widest uppercase text-makhana-700 bg-makhana-50 px-3 py-1 rounded-full border border-makhana-200">
             OUR PROMISE
           </span>
@@ -73,23 +73,23 @@ export default function WhyChooseUsSection() {
           </p>
         </div>
 
-        {/* Cards Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {/* Informative Cards Grid (Clean, non-clickable presentation) */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((feature, index) => (
             <div
               key={index}
               ref={(el) => {
                 if (el) cardsRef.current[index] = el;
               }}
-              className="opacity-0 translate-y-10 card-base p-8 text-center hover:shadow-card transition-all duration-300 group"
+              className="opacity-0 translate-y-10 bg-white/90 rounded-2xl p-6 sm:p-7 text-center border border-earth-200/70 shadow-2xs transition-colors duration-200"
             >
-              <div className="text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+              <div className="text-4xl sm:text-5xl mb-3 text-earth-800 select-none">
                 {feature.icon}
               </div>
-              <h3 className="text-xl font-bold text-heading mb-3 group-hover:text-makhana-600 transition-colors">
+              <h3 className="font-serif font-bold text-lg text-earth-900 mb-2">
                 {feature.title}
               </h3>
-              <p className="text-body">
+              <p className="text-xs sm:text-sm text-earth-600 leading-relaxed font-normal">
                 {feature.description}
               </p>
             </div>

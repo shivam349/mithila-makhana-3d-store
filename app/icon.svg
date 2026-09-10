@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7C2D12" />
+      <stop offset="100%" stop-color="#431407" />
+    </linearGradient>
+    <radialGradient id="nutGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#FFF8E7" />
+      <stop offset="100%" stop-color="#E2D4B7" />
+    </radialGradient>
+  </defs>
+  <!-- Background circle -->
+  <rect width="64" height="64" rx="16" fill="url(#bgGrad)" />
+  
+  <!-- Subtle golden inner ring -->
+  <circle cx="32" cy="32" r="26" fill="none" stroke="#D97706" stroke-width="1.5" stroke-opacity="0.5" />
+
+  <!-- Organic puffed makhana kernel shape -->
+  <path d="M32 14 
+           C42 15, 49 22, 48 31 
+           C48 37, 44 43, 38 47 
+           C32 50, 23 48, 19 42 
+           C14 36, 15 26, 21 20 
+           C25 16, 28 14, 32 14 Z" 
+        fill="url(#nutGrad)" />
+
+  <!-- Natural toasted golden contour marks -->
+  <path d="M26 24 C28 22, 33 23, 35 26" stroke="#C28E58" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.7" />
+  <path d="M23 33 C25 36, 30 38, 36 35" stroke="#C28E58" stroke-width="1.8" stroke-linecap="round" fill="none" opacity="0.6" />
+  <circle cx="38" cy="27" r="1.5" fill="#A77238" opacity="0.7" />
+</svg>

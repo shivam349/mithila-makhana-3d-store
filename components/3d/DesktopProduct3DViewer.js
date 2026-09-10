@@ -2,7 +2,7 @@
 
 import { useRef } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Float, Sparkles } from '@react-three/drei';
+import { OrbitControls, Float } from '@react-three/drei';
 import * as THREE from 'three';
 import CanvasErrorBoundary from './CanvasErrorBoundary';
 
@@ -43,38 +43,6 @@ function ProductModel({ color = '#f59e0b', product = 'classic' }) {
         />
       </mesh>
     </Float>
-  );
-}
-
-function ParticleRing({ productColor = '#f59e0b' }) {
-  const groupRef = useRef();
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.z = state.clock.elapsedTime * 0.12;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {[...Array(5)].map((_, i) => (
-        <Float key={i} speed={1.6} position={[(i - 2) * 1.2, 0, 0]}>
-          <mesh
-            position={[
-              Math.cos((i / 5) * Math.PI * 2) * 2.3,
-              0,
-              Math.sin((i / 5) * Math.PI * 2) * 2.3,
-            ]}
-          >
-            <sphereGeometry args={[0.2, 12, 12]} />
-            <meshPhongMaterial
-              color={productColor}
-              emissive={new THREE.Color(productColor).multiplyScalar(0.5)}
-            />
-          </mesh>
-        </Float>
-      ))}
-    </group>
   );
 }
 
@@ -119,8 +87,6 @@ export default function DesktopProduct3DViewer({
 
         <group>
           <ProductModel color={color} product={product} />
-          <ParticleRing productColor={color} />
-          <Sparkles count={40} scale={4.0} size={2.0} speed={0.25} color={color} />
         </group>
 
         <CameraController zoomTrigger={zoomAction} />

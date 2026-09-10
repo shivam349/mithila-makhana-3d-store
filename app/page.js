@@ -1,9 +1,8 @@
 import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
-import AboutSection from '@/components/AboutSection';
-import WhyChooseUsSection from '@/components/WhyChooseUsSection';
 import ProductShowcase from '@/components/ProductShowcase';
-import SpecialOffersSection from '@/components/SpecialOffersSection';
+import FromMithilaSection from '@/components/FromMithilaSection';
+import FarmToProductJourney from '@/components/FarmToProductJourney';
 import BenefitsSection from '@/components/BenefitsSection';
 import TestimonialSection from '@/components/TestimonialSection';
 import CTABanner from '@/components/CTABanner';
@@ -11,12 +10,12 @@ import Footer from '@/components/Footer';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-white">
+    <main className="min-h-screen bg-[#FFFDF9]">
       <Navigation />
       <HeroSection />
-      <AboutSection />
-      <WhyChooseUsSection />
       <ProductShowcase />
+      <FromMithilaSection />
+      <FarmToProductJourney />
       <BenefitsSection />
       <TestimonialSection />
       <CTABanner />

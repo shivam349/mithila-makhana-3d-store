@@ -1,154 +1,146 @@
 'use client';
 
+import Link from 'next/link';
+
 export default function Footer() {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-gray-900 text-white py-16 px-6">
-      <div className="max-w-7xl mx-auto">
-        {/* Main footer content */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-          {/* Brand */}
-          <div className="space-y-4">
-            <h3 className="text-2xl font-bold text-makhana-400">
-              Mithila Makhana
-            </h3>
-            <p className="text-gray-400 leading-relaxed">
-              Premium quality foxnuts from the fertile lands of Mithila, Bihar. Handpicked, naturally roasted, and delivered fresh to your home.
+    <footer className="bg-earth-950 text-earth-200 pt-16 pb-12 px-4 sm:px-6 border-t border-earth-900">
+      <div className="max-w-7xl mx-auto space-y-12">
+        {/* Main Footer Columns */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
+          {/* Brand Column (2 cols on lg) */}
+          <div className="lg:col-span-2 space-y-4">
+            <div className="flex items-center gap-2.5">
+              <span className="w-8 h-8 rounded-full bg-makhana-600 text-white flex items-center justify-center font-serif text-lg font-bold">
+                M
+              </span>
+              <span className="text-2xl font-serif font-bold text-white tracking-tight">
+                Mithila Makhana
+              </span>
+            </div>
+            <p className="text-sm text-earth-400 leading-relaxed max-w-sm">
+              Cultivated in the pristine wetland ponds of North Bihar. Handpicked, slow dry-roasted with zero oil, and vacuum-sealed for wholesome daily nourishment.
             </p>
-            <div className="flex gap-4 pt-4">
-              <a 
-                href="https://instagram.com" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-makhana-400 hover:text-makhana-300 transition-colors text-xl"
-                title="Instagram"
-              >
-                📷
-              </a>
-              <a 
-                href="https://whatsapp.com" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-makhana-400 hover:text-makhana-300 transition-colors text-xl"
-                title="WhatsApp"
-              >
-                💬
-              </a>
-              <a 
-                href="https://facebook.com" 
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-makhana-400 hover:text-makhana-300 transition-colors text-xl"
-                title="Facebook"
-              >
-                👥
-              </a>
+            <div className="flex items-center gap-3 pt-2 text-xs text-earth-400">
+              <span className="inline-flex items-center gap-1 bg-earth-900 px-3 py-1 rounded-full border border-earth-800 text-makhana-300">
+                <span>🪷</span>
+                <span>GI Tagged Origin</span>
+              </span>
+              <span className="inline-flex items-center gap-1 bg-earth-900 px-3 py-1 rounded-full border border-earth-800 text-emerald-300">
+                <span>✓</span>
+                <span>100% Organic</span>
+              </span>
             </div>
           </div>
 
-          {/* Quick Links */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-6">Quick Links</h4>
-            <ul className="space-y-3 text-gray-400">
+          {/* Shop Column */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-makhana-400">
+              Shop
+            </h4>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <a href="/" className="hover:text-makhana-400 transition-colors">
-                  Home
+                <Link href="/product/classic" className="hover:text-white transition-colors">
+                  Classic Roasted Makhana
+                </Link>
+              </li>
+              <li>
+                <Link href="/product/masala" className="hover:text-white transition-colors">
+                  Masala Roasted Makhana
+                </Link>
+              </li>
+              <li>
+                <Link href="/product/premium" className="hover:text-white transition-colors">
+                  Premium Organic Jumbo
+                </Link>
+              </li>
+              <li>
+                <Link href="/product/honey" className="hover:text-white transition-colors">
+                  Honey Glazed Makhana
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Our Story & Heritage */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-makhana-400">
+              Our Story
+            </h4>
+            <ul className="space-y-2.5 text-sm">
+              <li>
+                <a href="/#brand-story" className="hover:text-white transition-colors">
+                  From Mithila
                 </a>
               </li>
               <li>
-                <a href="#products" className="hover:text-makhana-400 transition-colors">
-                  Products
+                <a href="/#journey" className="hover:text-white transition-colors">
+                  Farm to Table Journey
                 </a>
               </li>
               <li>
-                <a href="#about" className="hover:text-makhana-400 transition-colors">
-                  About Us
+                <a href="/#benefits" className="hover:text-white transition-colors">
+                  Health & Nutrition
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-makhana-400 transition-colors">
-                  Contact
+                <a href="/#testimonials" className="hover:text-white transition-colors">
+                  Customer Reviews
                 </a>
               </li>
             </ul>
           </div>
 
-          {/* Information */}
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-6">Information</h4>
-            <ul className="space-y-3 text-gray-400">
+          {/* Customer Care & Policies */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-bold uppercase tracking-widest text-makhana-400">
+              Customer Care
+            </h4>
+            <ul className="space-y-2.5 text-sm">
               <li>
-                <a href="#" className="hover:text-makhana-400 transition-colors">
-                  Shipping Policy
+                <a href="/cart" className="hover:text-white transition-colors">
+                  Track & Complete Order
                 </a>
               </li>
               <li>
-                <a href="#" className="hover:text-makhana-400 transition-colors">
-                  Return & Refund
-                </a>
+                <span className="text-earth-400">
+                  Shipping: All India Free
+                </span>
               </li>
               <li>
-                <a href="#" className="hover:text-makhana-400 transition-colors">
-                  FAQ
-                </a>
+                <span className="text-earth-400">
+                  Returns: 7-Day Replacement
+                </span>
               </li>
               <li>
-                <a href="#" className="hover:text-makhana-400 transition-colors">
-                  Blog
+                <a href="mailto:hello@mithilamakhana.com" className="hover:text-white transition-colors">
+                  Contact: hello@mithilamakhana.com
                 </a>
               </li>
             </ul>
-          </div>
-
-          {/* Contact Info */}
-          <div className="space-y-6">
-            <div>
-              <h4 className="text-lg font-semibold text-white mb-4">Contact Us</h4>
-              <div className="space-y-3">
-                <div className="flex items-start gap-3">
-                  <span className="text-xl">✉️</span>
-                  <div>
-                    <p className="text-sm text-gray-500">Email</p>
-                    <a href="mailto:hello@mithilamakhana.com" className="text-gray-400 hover:text-makhana-400 transition-colors">
-                      hello@mithilamakhana.com
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-start gap-3">
-                  <span className="text-xl">📱</span>
-                  <div>
-                    <p className="text-sm text-gray-500">Phone</p>
-                    <a href="tel:+919876543210" className="text-gray-400 hover:text-makhana-400 transition-colors">
-                      +91 98765 43210
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="border-t border-gray-700 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-6">
-            <p className="text-gray-400 text-sm">
-              © {currentYear} Mithila Makhana. All rights reserved. Made with ❤️ in Bihar
-            </p>
-            <div className="flex gap-6 flex-wrap justify-center">
-              <a 
-                href="#" 
-                className="text-gray-400 hover:text-makhana-400 transition-colors text-sm"
-              >
-                Privacy Policy
-              </a>
-              <a 
-                href="#" 
-                className="text-gray-400 hover:text-makhana-400 transition-colors text-sm border-l border-gray-600 pl-6"
-              >
-                Terms of Service
-              </a>
-            </div>
+        {/* Bottom Bar with Engineering Attribution */}
+        <div className="pt-8 border-t border-earth-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-earth-500">
+          <p>
+            © {currentYear} Mithila Makhana. All rights reserved. Direct from Darbhanga, Bihar.
+          </p>
+
+          <div className="flex items-center gap-6">
+            <span className="text-earth-400">Privacy</span>
+            <span className="text-earth-400">Terms</span>
+            <a
+              href="https://github.com/shivam349/mithila-makhana-3d-store"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-makhana-400 hover:text-makhana-300 font-medium transition-colors inline-flex items-center gap-1.5"
+            >
+              <span>Built as a modern ecommerce engineering project</span>
+              <span>↗</span>
+            </a>
           </div>
         </div>
       </div>

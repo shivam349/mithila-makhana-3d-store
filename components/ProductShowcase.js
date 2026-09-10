@@ -11,11 +11,18 @@ import { defaultProducts } from '@/lib/productImages';
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Fallback product image
-const FALLBACK_IMAGE = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23FDF2E6'/%3E%3Ccircle cx='200' cy='180' r='60' fill='%23E8B896'/%3E%3Ctext x='200' y='280' font-family='sans-serif' font-size='22' font-weight='bold' fill='%238B5E34' text-anchor='middle'%3EMithila Makhana%3C/text%3E%3C/svg%3E";
+const FALLBACK_IMAGE =
+  "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' viewBox='0 0 400 400'%3E%3Crect width='400' height='400' fill='%23FDF2E6'/%3E%3Ccircle cx='200' cy='180' r='60' fill='%23E8B896'/%3E%3Ctext x='200' y='280' font-family='sans-serif' font-size='22' font-weight='bold' fill='%238B5E34' text-anchor='middle'%3EMithila Makhana%3C/text%3E%3C/svg%3E";
+
+const getProductSlug = (name = '') => {
+  const n = name.toLowerCase();
+  if (n.includes('masala')) return 'masala';
+  if (n.includes('honey')) return 'honey';
+  if (n.includes('organic')) return 'premium';
+  return 'classic';
+};
 
 export default function ProductShowcase() {
-  // Ensure product has all required fields
   const enrichProduct = (product) => {
     return {
       ...product,
@@ -23,20 +30,21 @@ export default function ProductShowcase() {
       imageFallback: product.imageFallback || FALLBACK_IMAGE,
       _id: product._id || product.id || Math.random(),
       name: product.name || 'Makhana Product',
-      price: product.price || 0,
+      price: product.price || 249,
       description: product.description || '',
-      category: product.category || 'standard',
-      stock: product.stock !== undefined ? product.stock : 0,
+      category: product.category || 'classic',
+      stock: product.stock !== undefined ? product.stock : 50,
+      slug: getProductSlug(product.name),
     };
   };
 
-  // Instant optimistic render: never block the user on cold-starting Render backend
   const [products, setProducts] = useState(() => defaultProducts.map(enrichProduct));
-  const [loading, setLoading] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState('all');
   const [imageErrors, setImageErrors] = useState({});
+  const [addedItemMap, setAddedItemMap] = useState({});
   const containerRef = useRef(null);
   const cardsRef = useRef([]);
-  const { addToCart } = useCart();
+  const { addToCart, buyNow } = useCart();
 
   // Fetch products from API with 3-second timeout protection
   useEffect(() => {
@@ -53,8 +61,6 @@ export default function ProductShowcase() {
       } catch (error) {
         // Backend sleeping or network delay: continue using instant local products
         console.log('Rendering with cached default products:', error.message);
-      } finally {
-        setLoading(false);
       }
     };
 
@@ -67,9 +73,9 @@ export default function ProductShowcase() {
   }, []);
 
   const handleImageError = (productId) => {
-    setImageErrors(prev => ({
+    setImageErrors((prev) => ({
       ...prev,
-      [productId]: true
+      [productId]: true,
     }));
   };
 
@@ -80,112 +86,207 @@ export default function ProductShowcase() {
     return product.image || FALLBACK_IMAGE;
   };
 
-  // Animations - Optimized to reduce overhead
+  // GSAP animation
   useEffect(() => {
     if (products.length === 0) return;
-    
+
     const ctx = gsap.context(() => {
-      // Use simpler fade-in animation without scrub for better performance
       cardsRef.current.forEach((card, index) => {
         if (card) {
           gsap.from(card, {
             scrollTrigger: {
               trigger: card,
-              start: 'top 85%',
+              start: 'top 88%',
               toggleActions: 'play none none none',
-              once: true, // Run animation only once
+              once: true,
             },
             opacity: 0,
-            y: 30,
-            duration: 0.5,
-            delay: index * 0.05, // Stagger effect
-            ease: 'power2.out'
+            y: 24,
+            duration: 0.45,
+            delay: index * 0.06,
+            ease: 'power2.out',
           });
         }
       });
     }, containerRef);
 
     return () => ctx.revert();
-  }, [products]);
+  }, [products, selectedCategory]);
 
   const handleAddToCart = (product) => {
     addToCart(product, 1);
-    alert(`✅ ${product.name} added to cart!`);
+    setAddedItemMap((prev) => ({ ...prev, [product._id]: true }));
+    setTimeout(() => {
+      setAddedItemMap((prev) => ({ ...prev, [product._id]: false }));
+    }, 2000);
   };
 
+  const handleQuickBuy = (product) => {
+    buyNow(product, 1);
+  };
+
+  const categories = [
+    { id: 'all', label: 'All Products' },
+    { id: 'classic', label: 'Classic & Salted' },
+    { id: 'spiced', label: 'Spiced Flavours' },
+    { id: 'organic', label: 'Organic Jumbo' },
+  ];
+
+  const filteredProducts = products.filter((p) => {
+    if (selectedCategory === 'all') return true;
+    if (selectedCategory === 'classic')
+      return p.name.toLowerCase().includes('classic') || p.category === 'standard';
+    if (selectedCategory === 'spiced')
+      return p.name.toLowerCase().includes('masala') || p.name.toLowerCase().includes('honey');
+    if (selectedCategory === 'organic')
+      return p.name.toLowerCase().includes('organic') || p.category === 'organic';
+    return true;
+  });
+
   return (
-    <section id="products" className="py-24 px-6 bg-white">
+    <section id="products" className="py-24 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100">
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Our <span className="bg-gradient-to-r from-makhana-600 to-earth-600 bg-clip-text text-transparent">
-              Premium Collection
-            </span>
+        {/* Section Heading */}
+        <div className="text-center mb-12 space-y-3">
+          <span className="inline-block text-xs font-bold tracking-widest uppercase text-makhana-700 bg-makhana-50 px-3.5 py-1 rounded-full border border-makhana-200/80">
+            PREMIUM HARVEST
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-earth-900 tracking-tight">
+            Our Artisan Makhana Collection
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Discover our handpicked makhana collection, sourced directly from the fertile fields of Mithila
+          <p className="text-base text-earth-600 max-w-2xl mx-auto leading-relaxed">
+            Naturally puffed, slow dry-roasted, and sealed at source in Mithila for uncompromised purity and crunch.
           </p>
+
+          {/* Category Filter Pills */}
+          <div className="flex flex-wrap justify-center gap-2 pt-4">
+            {categories.map((cat) => (
+              <button
+                key={cat.id}
+                type="button"
+                onClick={() => setSelectedCategory(cat.id)}
+                className={`px-4 py-2 rounded-full text-xs font-semibold tracking-wide transition-all ${
+                  selectedCategory === cat.id
+                    ? 'bg-makhana-700 text-white shadow-xs'
+                    : 'bg-white text-earth-700 hover:bg-makhana-50 border border-earth-200'
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
         </div>
 
-        {loading ? (
-          <div className="text-center py-20">
-            <p className="text-lg text-gray-600">Loading products...</p>
-          </div>
-        ) : (
-          <div
-            ref={containerRef}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            {products.map((product, index) => (
+        {/* Product Cards Grid */}
+        <div
+          ref={containerRef}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-7"
+        >
+          {filteredProducts.map((product, index) => {
+            const isAdded = !!addedItemMap[product._id];
+            const productSlug = product.slug || getProductSlug(product.name);
+
+            return (
               <div
                 key={product._id}
                 ref={(el) => {
                   if (el) cardsRef.current[index] = el;
                 }}
-                className="bg-white border border-makhana-100 rounded-lg overflow-hidden hover:shadow-xl hover:-translate-y-2 transition-all duration-300"
+                className="bg-white border border-earth-200/80 rounded-2xl overflow-hidden hover:shadow-xl hover:border-makhana-300 transition-all duration-300 flex flex-col group"
               >
-                <div className="relative h-48 bg-makhana-50 overflow-hidden">
+                {/* 1:1 Aspect Ratio Image Card Header */}
+                <Link href={`/product/${productSlug}`} className="block relative aspect-square bg-makhana-50/50 overflow-hidden">
                   <Image
                     src={getImageSource(product)}
                     alt={product.name}
                     onError={() => handleImageError(product._id)}
-                    className="object-cover hover:scale-105 transition-transform duration-300"
+                    className="object-cover group-hover:scale-105 transition-transform duration-500"
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
                     loading="lazy"
-                    quality={85}
+                    quality={90}
                     unoptimized={true}
                   />
-                  <div className="absolute top-2 right-2 bg-makhana-500 text-white px-3 py-1 rounded-full text-sm font-medium">
-                    {product.category}
-                  </div>
-                </div>
-
-                <div className="p-4">
-                  <h3 className="text-lg font-bold mb-2">{product.name}</h3>
-                  <p className="text-gray-600 text-sm mb-3">{product.description}</p>
-
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="text-2xl font-bold text-makhana-600">
-                      ₹{product.price}
-                    </span>
-                    <span className="text-sm text-gray-500">
-                      Stock: {product.stock}
-                    </span>
+                  {/* Category Pill Tag */}
+                  <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm text-earth-800 px-2.5 py-1 rounded-full text-[11px] font-semibold border border-earth-200 shadow-2xs">
+                    {product.name.toLowerCase().includes('organic')
+                      ? 'Certified Organic'
+                      : product.name.toLowerCase().includes('masala')
+                      ? 'Spiced'
+                      : product.name.toLowerCase().includes('honey')
+                      ? 'Natural Glaze'
+                      : 'Lightly Salted'}
                   </div>
 
-                  <button
-                    onClick={() => handleAddToCart(product)}
-                    disabled={product.stock <= 0}
-                    className="w-full bg-gradient-to-r from-makhana-500 to-makhana-600 text-white py-2 rounded-lg font-medium hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {product.stock > 0 ? '🛒 Add to Cart' : 'Out of Stock'}
-                  </button>
+                  {/* 3D view badge */}
+                  <div className="absolute bottom-3 left-3 bg-earth-900/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
+                    <span>✨</span>
+                    <span>3D Interactive</span>
+                  </div>
+                </Link>
+
+                {/* Card Content Body */}
+                <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
+                  <div>
+                    <div className="flex items-center gap-1 text-amber-500 text-xs mb-1.5">
+                      <span>★★★★★</span>
+                      <span className="text-earth-600 font-semibold ml-1">4.8</span>
+                    </div>
+
+                    <Link href={`/product/${productSlug}`}>
+                      <h3 className="text-lg font-serif font-bold text-earth-900 group-hover:text-makhana-700 transition-colors line-clamp-1">
+                        {product.name}
+                      </h3>
+                    </Link>
+
+                    <p className="text-earth-600 text-xs mt-1 line-clamp-2 leading-relaxed">
+                      {product.description || 'Authentic roasted foxnuts from Mithila wetlands.'}
+                    </p>
+                  </div>
+
+                  <div className="space-y-3 pt-2 border-t border-earth-100">
+                    <div className="flex items-baseline justify-between">
+                      <div>
+                        <span className="text-2xl font-serif font-bold text-makhana-800">
+                          ₹{product.price}
+                        </span>
+                        <span className="text-xs text-earth-400 line-through ml-2">
+                          ₹{Math.round(product.price * 1.3)}
+                        </span>
+                      </div>
+                      <span className="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">
+                        In Stock
+                      </span>
+                    </div>
+
+                    {/* Action Buttons Grid */}
+                    <div className="grid grid-cols-2 gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleAddToCart(product)}
+                        className={`py-2.5 px-3 rounded-xl text-xs font-semibold border transition-all flex items-center justify-center gap-1 ${
+                          isAdded
+                            ? 'bg-emerald-600 text-white border-emerald-600'
+                            : 'bg-makhana-50 text-makhana-900 border-makhana-200 hover:bg-makhana-100'
+                        }`}
+                      >
+                        {isAdded ? '✓ Added' : 'Add to Cart'}
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => handleQuickBuy(product)}
+                        className="py-2.5 px-3 rounded-xl text-xs font-semibold bg-earth-900 hover:bg-black text-white transition-all shadow-2xs"
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
+            );
+          })}
+        </div>
       </div>
     </section>
   );

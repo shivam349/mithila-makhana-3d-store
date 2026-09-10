@@ -32,28 +32,41 @@ export default function HeroSection() {
       ref={heroRef}
       className="relative w-full min-h-[580px] sm:min-h-[640px] lg:min-h-[700px] flex items-center overflow-hidden pt-20 sm:pt-24 pb-12 sm:pb-16"
     >
-      {/* 1. Full-bleed background hero image spanning entire viewport width */}
+      {/* 1. Full-bleed background hero image: original sharp image */}
       <div className="absolute inset-0 w-full h-full">
         <Image
-          src="/images/hero/mithila-makhana-hero.webp"
+          src="/images/hero/mithila-makhana-hero.png"
           alt="Premium Mithila Makhana"
           fill
           priority
+          quality={95}
           sizes="100vw"
           className="object-cover object-[80%_center] sm:object-[82%_center] lg:object-right"
         />
       </div>
 
-      {/* 2. Soft readability gradient: left-side warm cream wash to keep text crisp, transparent on right */}
+      {/* 2. Left-to-right gradient blur overlay:
+             - LEFT: soft blur behind text for readability
+             - CENTER: gradual smooth transition
+             - RIGHT: completely unblurred, keeping man and background 100% sharp */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          backdropFilter: 'blur(8px)',
+          WebkitBackdropFilter: 'blur(8px)',
+          maskImage: 'linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 28%, rgba(0,0,0,0) 58%)',
+          WebkitMaskImage: 'linear-gradient(to right, rgba(0,0,0,1) 0%, rgba(0,0,0,0.85) 28%, rgba(0,0,0,0) 58%)',
+        }}
+      />
+
+      {/* 3. Soft warm cream readability fade on the left side only */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           background:
-            'linear-gradient(90deg, rgba(255,253,249,0.96) 0%, rgba(255,253,249,0.90) 35%, rgba(255,253,249,0.72) 55%, rgba(255,253,249,0.20) 78%, rgba(255,253,249,0) 100%)',
+            'linear-gradient(90deg, rgba(255,253,249,0.95) 0%, rgba(255,253,249,0.88) 30%, rgba(255,253,249,0.40) 48%, rgba(255,253,249,0) 64%)',
         }}
       />
-      {/* Mobile/tablet ambient wash */}
-      <div className="absolute inset-0 lg:hidden pointer-events-none bg-gradient-to-b from-white/50 via-transparent to-white/30" />
 
       {/* 3. Hero content placed directly over the image on the LEFT */}
       <div className="relative z-10 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8">

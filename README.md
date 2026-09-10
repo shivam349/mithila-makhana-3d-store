@@ -1,5 +1,11 @@
 # Mithila Makhana 3D E-Commerce Website
 
+<div align="center">
+
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-mithilla--makkhana.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://mithilla-makkhana.vercel.app/)
+
+</div>
+
 A premium 3D e-commerce website for selling authentic Mithila makhana (lotus seeds) using cutting-edge web technologies.
 
 ## 🎯 Features

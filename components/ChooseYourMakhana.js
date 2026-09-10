@@ -121,12 +121,14 @@ export default function ChooseYourMakhana() {
               >
                 <div>
                   <Link href={`/product/${prod.slug}`} className="block relative aspect-square rounded-xl overflow-hidden bg-white mb-3">
-                    <img
+                    <Image
                       src={prod.image}
                       alt={prod.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      fill
+                      className="object-cover group-hover:scale-105 transition-transform duration-300"
+                      sizes="(max-width: 768px) 100vw, 33vw"
                     />
-                    <span className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-[10px] font-bold text-makhana-800 px-2 py-0.5 rounded-full border border-earth-200">
+                    <span className="absolute top-2 right-2 bg-white/90 backdrop-blur-sm text-[10px] font-bold text-makhana-800 px-2 py-0.5 rounded-full border border-earth-200 z-10">
                       {prod.badge}
                     </span>
                   </Link>

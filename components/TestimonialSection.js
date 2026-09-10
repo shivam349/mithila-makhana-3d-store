@@ -105,7 +105,7 @@ export default function TestimonialSection() {
               </div>
 
               <p className="text-xs sm:text-sm text-earth-700 leading-relaxed italic font-normal">
-                "{testimonial.text}"
+                &ldquo;{testimonial.text}&rdquo;
               </p>
             </div>
           ))}

@@ -392,7 +392,7 @@
 
                 productsList.innerHTML = products.map(product => `
                     <div class="product-card">
-                        <img src="${product.image}" alt="${product.name}" onerror="this.src='https://via.placeholder.com/80'">
+                        <img src="${product.image}" alt="${product.name}" onerror="this.src='/images/products/classic-makhana.webp'">
                         <div class="product-info">
                             <h3>${product.name}</h3>
                             <p>₹${product.price} | ${product.category} | Stock: ${product.stock}</p>

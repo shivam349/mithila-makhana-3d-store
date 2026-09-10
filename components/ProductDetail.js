@@ -98,8 +98,8 @@ export default function ProductDetail({ product = {} }) {
         {/* 3D Interactive Viewer Dominating Left (7 cols on lg) */}
         <div className="lg:col-span-7 space-y-4">
           <div className="relative h-[420px] sm:h-[480px] lg:h-[540px] rounded-3xl overflow-hidden shadow-xl border border-makhana-200/70 bg-gradient-to-br from-[#FFFDF9] via-[#FFF8F0] to-[#F7EEDB]">
-            {/* Tag over 3D viewer */}
-            <div className="absolute top-4 left-4 z-10 flex items-center gap-2 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-earth-200 text-xs font-medium text-earth-800 shadow-xs">
+            {/* Tag over 3D viewer (desktop only) */}
+            <div className="hidden lg:flex absolute top-4 left-4 z-10 items-center gap-2 bg-white/90 backdrop-blur-md px-3.5 py-1.5 rounded-full border border-earth-200 text-xs font-medium text-earth-800 shadow-xs">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
               <span>3D Interactive View · Rotate to Explore</span>
             </div>
@@ -119,7 +119,7 @@ export default function ProductDetail({ product = {} }) {
             />
           </div>
 
-          <div className="flex items-center justify-between text-xs text-earth-500 px-2">
+          <div className="hidden lg:flex items-center justify-between text-xs text-earth-500 px-2">
             <span>🖱️ Drag to rotate 3D makhana</span>
             <span>✨ Real-time Three.js Canvas</span>
           </div>

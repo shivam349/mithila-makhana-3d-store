@@ -122,10 +122,10 @@ export function EmailVerificationExample() {
           <h3 className="font-semibold text-blue-900 mb-2">Email Not Verified</h3>
           <ol className="text-blue-700 text-sm space-y-2 list-decimal list-inside">
             <li>Check your email inbox for a verification link</li>
-            <li>If you don't see it, check your spam folder</li>
+            <li>If you don&apos;t see it, check your spam folder</li>
             <li>Click the verification link in the email</li>
-            <li>Come back here and click "Refresh Status" to confirm</li>
-            <li>If the email is not received, click "Resend Verification Email" above</li>
+            <li>Come back here and click &quot;Refresh Status&quot; to confirm</li>
+            <li>If the email is not received, click &quot;Resend Verification Email&quot; above</li>
           </ol>
         </div>
       )}

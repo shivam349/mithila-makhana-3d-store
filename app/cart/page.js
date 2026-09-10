@@ -3,7 +3,6 @@
 import { useCart } from '@/lib/context/CartContext';
 import { useState } from 'react';
 import Link from 'next/link';
-import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export default function CartPage() {
@@ -136,8 +135,6 @@ Mithila Makhana Storefront Order Dispatch
 
   return (
     <div className="min-h-screen bg-[#FFFDF9] flex flex-col">
-      <Navigation />
-
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 pt-28 pb-16">
         <div className="mb-6">
           <Link

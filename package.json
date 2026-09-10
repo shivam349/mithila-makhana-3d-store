@@ -33,20 +33,28 @@
   },
   "devDependencies": {
     "autoprefixer": "^10.4.20",
+    "eslint": "^8.57.1",
+    "eslint-config-next": "^14.2.16",
     "postcss": "^8.4.47",
     "tailwindcss": "^3.4.14"
   },
   "description": "A premium 3D e-commerce website for selling authentic Mithila makhana (lotus seeds) using cutting-edge web technologies.",
-  "main": "script.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/shivam349/codex1.git"
+    "url": "git+https://github.com/shivam349/mithila-makhana-3d-store.git"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "nextjs",
+    "threejs",
+    "react-three-fiber",
+    "ecommerce",
+    "3d-store",
+    "mithila-makhana"
+  ],
+  "author": "Shivam Garg",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/shivam349/codex1/issues"
+    "url": "https://github.com/shivam349/mithila-makhana-3d-store/issues"
   },
-  "homepage": "https://github.com/shivam349/codex1#readme"
+  "homepage": "https://mithilla-makkhana.vercel.app/"
 }

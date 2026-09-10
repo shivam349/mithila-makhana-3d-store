@@ -20,15 +20,15 @@ export default function Footer() {
                 Mithila Makhana
               </span>
             </div>
-            <p className="text-sm text-earth-400 leading-relaxed max-w-sm">
+            <p className="text-sm text-earth-300 leading-relaxed max-w-sm">
               Cultivated in the pristine wetland ponds of North Bihar. Handpicked, slow dry-roasted with zero oil, and vacuum-sealed for wholesome daily nourishment.
             </p>
-            <div className="flex items-center gap-3 pt-2 text-xs text-earth-400">
-              <span className="inline-flex items-center gap-1 bg-earth-900 px-3 py-1 rounded-full border border-earth-800 text-makhana-300">
+            <div className="flex items-center gap-3 pt-2 text-xs text-earth-300">
+              <span className="inline-flex items-center gap-1 bg-earth-900/90 px-3 py-1 rounded-full border border-earth-800 text-makhana-300 font-medium">
                 <span>🪷</span>
                 <span>GI Tagged Origin</span>
               </span>
-              <span className="inline-flex items-center gap-1 bg-earth-900 px-3 py-1 rounded-full border border-earth-800 text-emerald-300">
+              <span className="inline-flex items-center gap-1 bg-earth-900/90 px-3 py-1 rounded-full border border-earth-800 text-emerald-300 font-medium">
                 <span>✓</span>
                 <span>100% Organic</span>
               </span>
@@ -38,9 +38,9 @@ export default function Footer() {
           {/* Shop Column */}
           <div className="space-y-3">
             <h4 className="text-xs font-bold uppercase tracking-widest text-makhana-400">
-              Shop
+              Shop Collection
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-sm text-earth-300">
               <li>
                 <Link href="/product/classic" className="hover:text-white transition-colors">
                   Classic Roasted Makhana
@@ -48,7 +48,7 @@ export default function Footer() {
               </li>
               <li>
                 <Link href="/product/masala" className="hover:text-white transition-colors">
-                  Masala Roasted Makhana
+                  Masala Spiced Makhana
                 </Link>
               </li>
               <li>
@@ -69,26 +69,26 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-widest text-makhana-400">
               Our Story
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-sm text-earth-300">
               <li>
-                <a href="/#brand-story" className="hover:text-white transition-colors">
-                  From Mithila
-                </a>
+                <Link href="/#brand-story" className="hover:text-white transition-colors">
+                  From Mithila Wetlands
+                </Link>
               </li>
               <li>
-                <a href="/#journey" className="hover:text-white transition-colors">
+                <Link href="/#journey" className="hover:text-white transition-colors">
                   Farm to Table Journey
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/#benefits" className="hover:text-white transition-colors">
-                  Health & Nutrition
-                </a>
+                <Link href="/#nutrition" className="hover:text-white transition-colors">
+                  Health & Nutrition Profile
+                </Link>
               </li>
               <li>
-                <a href="/#testimonials" className="hover:text-white transition-colors">
-                  Customer Reviews
-                </a>
+                <Link href="/#reviews" className="hover:text-white transition-colors">
+                  Verified Customer Reviews
+                </Link>
               </li>
             </ul>
           </div>
@@ -98,20 +98,20 @@ export default function Footer() {
             <h4 className="text-xs font-bold uppercase tracking-widest text-makhana-400">
               Customer Care
             </h4>
-            <ul className="space-y-2.5 text-sm">
+            <ul className="space-y-2.5 text-sm text-earth-300">
               <li>
-                <a href="/cart" className="hover:text-white transition-colors">
-                  Track & Complete Order
-                </a>
+                <Link href="/cart" className="hover:text-white transition-colors">
+                  Shopping Bag & Checkout
+                </Link>
               </li>
               <li>
-                <Link href="/engineering" className="text-makhana-400 hover:text-white transition-colors font-medium">
+                <Link href="/engineering" className="text-makhana-300 hover:text-white transition-colors font-medium">
                   Architecture & Engineering
                 </Link>
               </li>
               <li>
                 <span className="text-earth-400">
-                  Shipping: All India Free
+                  Shipping: All-India Free Delivery
                 </span>
               </li>
               <li>
@@ -120,8 +120,8 @@ export default function Footer() {
                 </span>
               </li>
               <li>
-                <a href="mailto:hello@mithilamakhana.com" className="hover:text-white transition-colors">
-                  Contact: hello@mithilamakhana.com
+                <a href="mailto:shivamgarg1515@gmail.com" className="hover:text-white transition-colors">
+                  Contact: shivamgarg1515@gmail.com
                 </a>
               </li>
             </ul>
@@ -129,13 +129,13 @@ export default function Footer() {
         </div>
 
         {/* Bottom Bar with Engineering Attribution */}
-        <div className="pt-8 border-t border-earth-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-earth-500">
+        <div className="pt-8 border-t border-earth-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-earth-400">
           <p>
             © {currentYear} Mithila Makhana. All rights reserved. Direct from Darbhanga, Bihar.
           </p>
 
           <div className="flex items-center gap-6">
-            <Link href="/engineering" className="text-earth-400 hover:text-white transition-colors">
+            <Link href="/engineering" className="text-earth-300 hover:text-white transition-colors">
               /engineering
             </Link>
             <span className="text-earth-400">Privacy</span>
@@ -146,7 +146,7 @@ export default function Footer() {
               rel="noopener noreferrer"
               className="text-makhana-400 hover:text-makhana-300 font-medium transition-colors inline-flex items-center gap-1.5"
             >
-              <span>Built as a modern ecommerce engineering project</span>
+              <span>GitHub Repository</span>
               <span>↗</span>
             </a>
           </div>

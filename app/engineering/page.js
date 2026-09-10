@@ -1,14 +1,11 @@
 'use client';
 
 import Link from 'next/link';
-import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 
 export default function EngineeringPage() {
   return (
     <div className="min-h-screen bg-[#FFFDF9] flex flex-col">
-      <Navigation />
-
       <main className="flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 pt-28 pb-20 space-y-16">
         {/* Hero & Technical Abstract */}
         <div className="space-y-4 max-w-3xl">

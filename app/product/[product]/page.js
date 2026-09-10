@@ -1,4 +1,3 @@
-import Navigation from '@/components/Navigation';
 import ProductDetail from '@/components/ProductDetail';
 import Footer from '@/components/Footer';
 
@@ -147,7 +146,6 @@ export default function ProductPage({ params }) {
 
   return (
     <main className="min-h-screen bg-[#FFFDF9]">
-      <Navigation />
       <div className="pt-28 pb-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <ProductDetail product={product} />

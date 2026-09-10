@@ -1,17 +1,18 @@
 'use client';
 
-import { AuthProvider } from '@/lib/context/AuthContext';
 import { CartProvider } from '@/lib/context/CartContext';
+import { AuthProvider } from '@/lib/context/AuthContext';
 import { FirebaseAuthProvider } from '@/lib/context/FirebaseAuthContext';
 
 export function Providers({ children }) {
   return (
-    <AuthProvider>
-      <FirebaseAuthProvider>
+    <FirebaseAuthProvider>
+      <AuthProvider>
         <CartProvider>
           {children}
         </CartProvider>
-      </FirebaseAuthProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </FirebaseAuthProvider>
   );
 }
+

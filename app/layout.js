@@ -1,7 +1,4 @@
 import './globals.css';
-import { CartProvider } from '@/lib/context/CartContext';
-import { AuthProvider } from '@/lib/context/AuthContext';
-import { FirebaseAuthProvider } from '@/lib/context/FirebaseAuthContext';
 import { Providers } from './providers';
 import Navigation from '@/components/Navigation';
 
@@ -15,16 +12,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className="bg-white text-gray-900">
-        <FirebaseAuthProvider>
-          <Providers>
-            <AuthProvider>
-              <CartProvider>
-                <Navigation />
-                {children}
-              </CartProvider>
-            </AuthProvider>
-          </Providers>
-        </FirebaseAuthProvider>
+        <Providers>
+          <Navigation />
+          {children}
+        </Providers>
       </body>
     </html>
   );

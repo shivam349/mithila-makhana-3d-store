@@ -17,45 +17,72 @@ export default function HeroSection() {
   const sceneRef = useRef(null);
 
   useEffect(() => {
+    // Respect reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
       tl.from(titleRef.current, {
         opacity: 0,
-        y: 50,
-        duration: 1,
+        y: 30,
+        duration: 0.8,
+        ease: 'power2.out',
       })
-        .from(subtitleRef.current, {
-          opacity: 0,
-          y: 30,
-          duration: 0.8,
-        }, '-=0.5')
-        .from(ctaRef.current, {
-          opacity: 0,
-          y: 20,
-          duration: 0.8,
-        }, '-=0.5')
-        .from(badgesRef.current, {
-          opacity: 0,
-          y: 20,
-          duration: 0.8,
-        }, '-=0.5')
-        .from(sceneRef.current, {
-          opacity: 0,
-          scale: 0.9,
-          duration: 1,
-        }, '-=0.8');
+        .from(
+          subtitleRef.current,
+          {
+            opacity: 0,
+            y: 20,
+            duration: 0.6,
+            ease: 'power2.out',
+          },
+          '-=0.4'
+        )
+        .from(
+          ctaRef.current,
+          {
+            opacity: 0,
+            y: 15,
+            duration: 0.6,
+            ease: 'power2.out',
+          },
+          '-=0.3'
+        )
+        .from(
+          badgesRef.current,
+          {
+            opacity: 0,
+            y: 15,
+            duration: 0.6,
+            ease: 'power2.out',
+          },
+          '-=0.3'
+        )
+        .from(
+          sceneRef.current,
+          {
+            opacity: 0,
+            scale: 0.96,
+            duration: 0.8,
+            ease: 'power2.out',
+          },
+          '-=0.5'
+        );
 
-      // Parallax scroll effect
-      gsap.to(sceneRef.current, {
-        scrollTrigger: {
-          trigger: heroRef.current,
-          start: 'top center',
-          end: 'bottom center',
-          scrub: 1,
-        },
-        y: -100,
-      });
+      // Parallax scroll effect only on desktop
+      if (window.innerWidth > 768) {
+        gsap.to(sceneRef.current, {
+          scrollTrigger: {
+            trigger: heroRef.current,
+            start: 'top center',
+            end: 'bottom center',
+            scrub: 1,
+          },
+          y: -40,
+        });
+      }
     }, heroRef);
 
     return () => ctx.revert();
@@ -64,35 +91,38 @@ export default function HeroSection() {
   return (
     <section
       ref={heroRef}
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
+      className="relative min-h-[85vh] lg:min-h-screen flex items-center justify-center overflow-hidden"
       style={{
         background: 'linear-gradient(135deg, #FFFDF9 0%, #FFF8F0 55%, #F7EEDB 100%)',
       }}
     >
-      {/* Decorative elements */}
-      <div className="absolute top-20 left-10 w-72 h-72 bg-makhana-400/15 rounded-full blur-3xl" />
-      <div className="absolute bottom-0 right-10 w-96 h-96 bg-makhana-400/10 rounded-full blur-3xl" />
+      {/* Decorative ambient lighting elements */}
+      <div className="absolute top-20 left-10 w-72 h-72 bg-makhana-400/15 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 right-10 w-96 h-96 bg-makhana-400/10 rounded-full blur-3xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto w-full px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 py-20">
+      <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center relative z-10 pt-28 pb-16 lg:py-24">
         {/* Left content */}
-        <div className="space-y-8">
+        <div className="space-y-6 sm:space-y-8 text-center lg:text-left">
           {/* Main headline */}
           <div>
+            <span className="inline-block text-xs font-bold tracking-widest uppercase text-makhana-700 bg-makhana-50 px-3.5 py-1 rounded-full border border-makhana-200/80 mb-3">
+              100% ORGANIC LOTUS SEEDS
+            </span>
             <h1
               ref={titleRef}
-              className="text-5xl lg:text-7xl font-serif font-bold text-earth-900 leading-tight"
+              className="text-4xl sm:text-5xl lg:text-7xl font-serif font-bold text-earth-900 leading-tight"
             >
               Premium Mithila Makhana
             </h1>
-            <p className="text-makhana-700 font-medium text-xl mt-2 tracking-wide">
-              Traditional Lotus Seeds from Bihar
+            <p className="text-makhana-700 font-medium text-lg sm:text-xl mt-2 tracking-wide">
+              Traditional Foxnuts Direct from Bihar
             </p>
           </div>
 
           {/* Subheading */}
           <p
             ref={subtitleRef}
-            className="text-lg text-earth-700 max-w-lg leading-relaxed font-normal"
+            className="text-base sm:text-lg text-earth-700 max-w-lg mx-auto lg:mx-0 leading-relaxed font-normal"
           >
             Handpicked foxnuts from the fertile wetland floodplains of Mithila. Naturally popped, slow dry-roasted with zero oil, and delivered fresh to your door.
           </p>
@@ -100,7 +130,7 @@ export default function HeroSection() {
           {/* CTA Buttons */}
           <div
             ref={ctaRef}
-            className="flex flex-wrap gap-4 pt-4"
+            className="flex flex-wrap justify-center lg:justify-start gap-4 pt-2"
           >
             <Link href="#products" className="btn-primary">
               Shop Collection
@@ -113,38 +143,32 @@ export default function HeroSection() {
           {/* Trust Badges */}
           <div
             ref={badgesRef}
-            className="grid grid-cols-2 gap-3 pt-8"
+            className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-4 max-w-md mx-auto lg:mx-0"
           >
-            <div className="badge">
-              <span className="text-xl">🌿</span>
+            <div className="badge justify-center text-xs py-2 px-3">
+              <span className="text-base">🌿</span>
               <span>100% Natural</span>
             </div>
-            <div className="badge">
-              <span className="text-xl">💪</span>
+            <div className="badge justify-center text-xs py-2 px-3">
+              <span className="text-base">💪</span>
               <span>High Protein</span>
             </div>
-            <div className="badge">
-              <span className="text-xl">🚜</span>
+            <div className="badge justify-center text-xs py-2 px-3">
+              <span className="text-base">🚜</span>
               <span>Farm Fresh</span>
             </div>
-            <div className="badge">
-              <span className="text-xl">🏠</span>
+            <div className="badge justify-center text-xs py-2 px-3">
+              <span className="text-base">🏠</span>
               <span>Made in Bihar</span>
             </div>
           </div>
         </div>
 
-        {/* Right 3D scene */}
+        {/* Right Visual / 3D Scene Area */}
         <div
           ref={sceneRef}
-          className="h-[500px] lg:h-[600px] rounded-3xl overflow-hidden shadow-2xl relative"
-          style={{
-            backgroundImage: 'url(/images/hero/mithila-makhana-hero.webp)',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-          }}
+          className="h-[360px] sm:h-[440px] lg:h-[560px] w-full max-w-lg mx-auto lg:max-w-none rounded-3xl overflow-hidden shadow-xl border border-makhana-200/60 relative bg-gradient-to-br from-[#FFFDF9] via-[#FFF8F0] to-[#F7EEDB]"
         >
-          <div className="absolute inset-0 bg-black/10" />
           <MakhanaScene classNameProp="h-full" />
         </div>
       </div>

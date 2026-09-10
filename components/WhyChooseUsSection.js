@@ -11,19 +11,26 @@ export default function WhyChooseUsSection() {
   const cardsRef = useRef([]);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
       cardsRef.current.forEach((card, index) => {
-        gsap.to(card, {
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: 'top center+=100',
-            toggleActions: 'play none none none',
-          },
-          opacity: 1,
-          y: 0,
-          duration: 0.8,
-          delay: index * 0.15,
-        });
+        if (card) {
+          gsap.from(card, {
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: 'top 85%',
+              toggleActions: 'play none none none',
+              once: true,
+            },
+            opacity: 0,
+            y: 20,
+            duration: 0.5,
+            delay: index * 0.08,
+            ease: 'power2.out',
+          });
+        }
       });
     }, sectionRef);
 
@@ -34,22 +41,22 @@ export default function WhyChooseUsSection() {
     {
       icon: '💪',
       title: 'High Protein Snack',
-      description: 'Rich in protein and low in fat, perfect for a healthy lifestyle',
+      description: 'Rich in natural plant protein and dietary fiber for clean, sustained energy.',
     },
     {
       icon: '🚜',
-      title: 'Farm Fresh Quality',
-      description: 'Directly sourced from local farmers ensuring maximum freshness',
+      title: 'Direct Farm Harvest',
+      description: 'Handpicked from authentic Mithila wetland ponds ensuring peak freshness.',
     },
     {
       icon: '🌿',
-      title: 'No Preservatives',
-      description: 'Naturally roasted without any chemicals or additives',
+      title: 'Zero-Oil Dry Roast',
+      description: 'Naturally popped and slow roasted without palm oil, chemicals, or frying.',
     },
     {
       icon: '🏠',
-      title: 'Direct from Mithila',
-      description: 'Authentic foxnuts from the fertile lands of Bihar',
+      title: 'Protected GI Origin',
+      description: 'Authentic Bihar Geographical Indication provenance with complete purity.',
     },
   ];
 
@@ -57,7 +64,7 @@ export default function WhyChooseUsSection() {
     <section
       id="why-choose"
       ref={sectionRef}
-      className="pt-16 pb-8 sm:pt-20 sm:pb-10 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100"
+      className="py-12 sm:py-16 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -74,19 +81,19 @@ export default function WhyChooseUsSection() {
         </div>
 
         {/* Informative Cards Grid (Clean, non-clickable presentation) */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
           {features.map((feature, index) => (
             <div
               key={index}
               ref={(el) => {
                 if (el) cardsRef.current[index] = el;
               }}
-              className="opacity-0 translate-y-10 bg-white/90 rounded-2xl p-6 sm:p-7 text-center border border-earth-200/70 shadow-2xs transition-colors duration-200"
+              className="bg-white rounded-2xl p-6 text-center border border-earth-200/80 shadow-2xs"
             >
-              <div className="text-4xl sm:text-5xl mb-3 text-earth-800 select-none">
+              <div className="text-3xl sm:text-4xl mb-3 text-earth-800 select-none">
                 {feature.icon}
               </div>
-              <h3 className="font-serif font-bold text-lg text-earth-900 mb-2">
+              <h3 className="font-serif font-bold text-base sm:text-lg text-earth-900 mb-1.5">
                 {feature.title}
               </h3>
               <p className="text-xs sm:text-sm text-earth-600 leading-relaxed font-normal">

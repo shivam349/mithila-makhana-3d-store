@@ -178,11 +178,11 @@ export default function SignInPage() {
             <div className="mb-4 p-4 rounded-lg bg-blue-50 border border-blue-200">
               <h3 className="font-semibold text-blue-900 mb-2">Verify Your Email</h3>
               <p className="text-blue-700 text-sm mb-3">
-                We've sent a verification link to <strong>{verificationEmail}</strong>. 
+                We&apos;ve sent a verification link to <strong>{verificationEmail}</strong>. 
                 Please check your inbox and click the link to verify your account.
               </p>
               <p className="text-blue-600 text-xs mb-3">
-                Didn't receive the email? Check your spam folder or click the button below to resend.
+                Didn&apos;t receive the email? Check your spam folder or click the button below to resend.
               </p>
               <div className="flex gap-2">
                 <button

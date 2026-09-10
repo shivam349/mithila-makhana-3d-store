@@ -89,7 +89,7 @@ export default function AboutSection() {
                 We work directly with local farmers to ensure freshness, quality, and fair sourcing. Every pack delivers a healthy snack rich in protein, low in fat, and full of natural goodness.
               </p>
               <p className="text-body font-semibold text-makhana-600">
-                Our mission is to take Mithila's heritage to every home and make makhana a global superfood.
+                Our mission is to take Mithila&apos;s heritage to every home and make makhana a global superfood.
               </p>
             </div>
 

@@ -1,4 +1,3 @@
-import Navigation from '@/components/Navigation';
 import HeroSection from '@/components/HeroSection';
 import ProductShowcase from '@/components/ProductShowcase';
 import ChooseYourMakhana from '@/components/ChooseYourMakhana';
@@ -17,7 +16,6 @@ import Footer from '@/components/Footer';
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#FFFDF9]">
-      <Navigation />
       <HeroSection />
       <ProductShowcase />
       <ChooseYourMakhana />

@@ -12,17 +12,24 @@ export default function CTABanner() {
   const contentRef = useRef(null);
 
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) return;
+
     const ctx = gsap.context(() => {
-      gsap.to(contentRef.current, {
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: 'top center+=100',
-          toggleActions: 'play none none none',
-        },
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-      });
+      if (contentRef.current) {
+        gsap.from(contentRef.current, {
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: 'top 85%',
+            toggleActions: 'play none none none',
+            once: true,
+          },
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: 'power2.out',
+        });
+      }
     }, sectionRef);
 
     return () => ctx.revert();
@@ -31,25 +38,33 @@ export default function CTABanner() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 px-6"
+      className="py-16 sm:py-20 px-4 sm:px-6 relative overflow-hidden"
       style={{
-        background: 'linear-gradient(135deg, #C67C2E 0%, #8B5E34 100%)',
+        background: 'linear-gradient(135deg, #8B5E34 0%, #6B4423 50%, #4A2F1A 100%)',
       }}
     >
       <div className="max-w-4xl mx-auto">
         <div
           ref={contentRef}
-          className="opacity-0 translate-y-10 text-center space-y-8"
+          className="text-center space-y-6 sm:space-y-7"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-white">
+          <span className="inline-block text-xs font-bold tracking-widest uppercase text-makhana-200 bg-white/10 px-3.5 py-1 rounded-full border border-white/15">
+            AUTHENTIC TASTE OF BIHAR
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold text-white tracking-tight">
             Order Fresh Mithila Makhana Today
           </h2>
-          <p className="text-xl text-makhana-50 max-w-2xl mx-auto">
-            Join thousands of customers enjoying premium foxnuts from Mithila. Fresh, healthy, and delivered to your door.
+          <p className="text-base sm:text-lg text-makhana-100/90 max-w-xl mx-auto leading-relaxed">
+            Experience authentic slow-roasted foxnuts, naturally popped over open flames with zero frying. Delivered fresh to your doorstep across India.
           </p>
-          <Link href="#products" className="inline-block btn-accent px-10 py-4">
-            Shop Now
-          </Link>
+          <div className="pt-2">
+            <Link
+              href="#products"
+              className="inline-block px-8 py-3.5 rounded-xl font-semibold text-earth-950 bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 text-sm sm:text-base"
+            >
+              Shop Fresh Harvest →
+            </Link>
+          </div>
         </div>
       </div>
     </section>

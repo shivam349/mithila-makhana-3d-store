@@ -1,106 +1,58 @@
 'use client';
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { OrbitControls, Float, Sparkles } from '@react-three/drei';
-import { useRef, useState } from 'react';
-import * as THREE from 'three';
+import { useState, useEffect, useRef } from 'react';
+import dynamic from 'next/dynamic';
+import Image from 'next/image';
+import { isWebGLAvailable } from '@/lib/webglUtils';
 
-function ProductModel({ color = '#f59e0b', product = 'classic' }) {
-  const meshRef = useRef();
+const PRODUCT_ASSETS = {
+  classic: {
+    image: '/images/products/classic-makhana.webp',
+    fallback: '/images/products/classic-makhana.png',
+    name: 'Classic Roasted Makhana',
+  },
+  masala: {
+    image: '/images/products/masala-makhana.webp',
+    fallback: '/images/products/masala-makhana.png',
+    name: 'Masala Spiced Makhana',
+  },
+  organic: {
+    image: '/images/products/premium-organic.webp',
+    fallback: '/images/products/premium-organic.png',
+    name: 'Premium Organic Jumbo',
+  },
+  premium: {
+    image: '/images/products/premium-organic.webp',
+    fallback: '/images/products/premium-organic.png',
+    name: 'Premium Organic Jumbo',
+  },
+  honey: {
+    image: '/images/products/honey-makhana.webp',
+    fallback: '/images/products/honey-makhana.png',
+    name: 'Honey Glazed Makhana',
+  },
+};
 
-  useFrame((state) => {
-    if (meshRef.current) {
-      meshRef.current.rotation.x += 0.005;
-      meshRef.current.rotation.y += 0.01;
-      meshRef.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.15;
-    }
-  });
-
-  const getGeometry = () => {
-    switch (product) {
-      case 'masala':
-        return <octahedronGeometry args={[1.3, 4]} />;
-      case 'honey':
-        return <dodecahedronGeometry args={[1.1, 0]} />;
-      case 'premium':
-        return <icosahedronGeometry args={[1.4, 8]} />;
-      default:
-        return <icosahedronGeometry args={[1.2, 8]} />;
-    }
-  };
-
-  return (
-    <Float speed={2.2} rotationIntensity={0.8} floatIntensity={0.6}>
-      <mesh ref={meshRef}>
-        {getGeometry()}
-        <meshPhongMaterial
-          color={color}
-          emissive={new THREE.Color(color).multiplyScalar(0.7)}
-          emissiveIntensity={0.4}
-          shininess={90}
-          wireframe={false}
-        />
-      </mesh>
-    </Float>
-  );
-}
-
-function ParticleRing({ productColor = '#f59e0b' }) {
-  const groupRef = useRef();
-
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.z = state.clock.elapsedTime * 0.15;
-    }
-  });
-
-  return (
-    <group ref={groupRef}>
-      {[...Array(6)].map((_, i) => (
-        <Float key={i} speed={1.8} position={[(i - 2.5) * 1.2, 0, 0]}>
-          <mesh
-            position={[
-              Math.cos((i / 6) * Math.PI * 2) * 2.4,
-              0,
-              Math.sin((i / 6) * Math.PI * 2) * 2.4,
-            ]}
-          >
-            <sphereGeometry args={[0.22, 16, 16]} />
-            <meshPhongMaterial
-              color={productColor}
-              emissive={new THREE.Color(productColor).multiplyScalar(0.5)}
-            />
-          </mesh>
-        </Float>
-      ))}
-    </group>
-  );
-}
-
-// Camera controller helper for zoom controls
-function CameraController({ zoomTrigger }) {
-  const { camera } = useThree();
-  useFrame(() => {
-    if (zoomTrigger === 'in' && camera.position.z > 3) {
-      camera.position.z = THREE.MathUtils.lerp(camera.position.z, camera.position.z - 0.5, 0.1);
-    } else if (zoomTrigger === 'out' && camera.position.z < 6.5) {
-      camera.position.z = THREE.MathUtils.lerp(camera.position.z, camera.position.z + 0.5, 0.1);
-    } else if (zoomTrigger === 'reset') {
-      camera.position.lerp(new THREE.Vector3(0, 0, 5), 0.1);
-    }
-  });
-  return null;
-}
+// Dynamically import desktop 3D viewer component so Three.js bundle is NOT loaded or initialized on mobile/tablet (<= 768px)
+const DesktopProduct3DViewer = dynamic(() => import('./3d/DesktopProduct3DViewer'), {
+  ssr: false,
+  loading: () => null,
+});
 
 export default function ProductViewer({
   product = 'classic',
   color = '#C67C2E',
   classNameProp = '',
 }) {
+  // Mobile / tablet starts with isDesktop = false (no Three.js)
+  const [isDesktop, setIsDesktop] = useState(false);
+  const [viewMode, setViewMode] = useState('3d'); // '3d' | 'photo'
   const [autoRotate, setAutoRotate] = useState(true);
   const [activeHotspot, setActiveHotspot] = useState(null);
   const [zoomAction, setZoomAction] = useState(null);
   const controlsRef = useRef();
+
+  const asset = PRODUCT_ASSETS[product] || PRODUCT_ASSETS.classic;
 
   const hotspots = [
     {
@@ -133,6 +85,23 @@ export default function ProductViewer({
     },
   ];
 
+  useEffect(() => {
+    const checkViewport = () => {
+      // REQUIREMENT: width <= 768px is strictly Mobile/Tablet -> DO NOT initialize Three.js
+      // Only width > 768px with WebGL support loads Desktop 3D
+      const desktop = window.innerWidth > 768;
+      if (desktop && isWebGLAvailable()) {
+        setIsDesktop(true);
+      } else {
+        setIsDesktop(false);
+      }
+    };
+
+    checkViewport();
+    window.addEventListener('resize', checkViewport);
+    return () => window.removeEventListener('resize', checkViewport);
+  }, []);
+
   const handleZoom = (action) => {
     setZoomAction(action);
     setTimeout(() => setZoomAction(null), 300);
@@ -146,84 +115,123 @@ export default function ProductViewer({
     setActiveHotspot(null);
   };
 
+  // Static product photo view (Primary on mobile/tablet <= 768px, switchable on PC)
+  const renderStaticPhoto = (
+    <div className="relative w-full h-full min-h-[380px] bg-gradient-to-br from-[#FFFDF9] via-[#FFF8F0] to-[#F7EEDB] flex items-center justify-center p-6">
+      <div className="relative w-full max-w-[340px] aspect-square rounded-2xl overflow-hidden shadow-md border border-earth-200/80 bg-white">
+        <Image
+          src={asset.image}
+          alt={asset.name}
+          fill
+          className="object-cover"
+          sizes="(max-width: 768px) 100vw, 50vw"
+          priority
+          unoptimized
+        />
+        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-sm text-[11px] font-bold text-earth-800 px-3 py-1 rounded-full border border-earth-200 shadow-2xs">
+          Pure Mithila Harvest
+        </div>
+      </div>
+    </div>
+  );
+
+  // Strictly check if 3D should be rendered (MUST be desktop > 768px)
+  const shouldRender3D = isDesktop && viewMode === '3d';
+
   return (
     <div className={`relative w-full h-full flex flex-col ${classNameProp}`}>
-      {/* 3D Canvas Canvas Area */}
+      {/* Viewer Canvas / Photo Area */}
       <div className="relative flex-1 w-full h-full min-h-[380px]">
-        <Canvas
-          camera={{ position: [0, 0, 5], fov: 48 }}
-          style={{ width: '100%', height: '100%' }}
-        >
-          <ambientLight intensity={0.85} />
-          <pointLight position={[10, 10, 10]} intensity={1.2} />
-          <pointLight position={[-8, -8, 8]} intensity={0.8} color={color} />
-          <pointLight position={[0, 5, 3]} intensity={0.5} />
+        {shouldRender3D ? (
+          <>
+            <DesktopProduct3DViewer
+              product={product}
+              color={color}
+              autoRotate={autoRotate}
+              zoomAction={zoomAction}
+              controlsRef={controlsRef}
+              fallback={renderStaticPhoto}
+            />
 
-          <group>
-            <ProductModel color={color} product={product} />
-            <ParticleRing productColor={color} />
-            <Sparkles count={100} scale={4.2} size={2.2} speed={0.25} color={color} />
-          </group>
+            {/* Desktop Floating Controls Overlay */}
+            <div className="absolute top-4 right-4 z-20 flex flex-col gap-1.5 bg-white/90 backdrop-blur-md p-1.5 rounded-xl border border-earth-200/80 shadow-sm">
+              <button
+                type="button"
+                onClick={() => handleZoom('in')}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-earth-700 hover:bg-earth-100 font-bold text-base transition-colors"
+                title="Zoom In"
+                aria-label="Zoom In"
+              >
+                +
+              </button>
+              <button
+                type="button"
+                onClick={() => handleZoom('out')}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-earth-700 hover:bg-earth-100 font-bold text-base transition-colors"
+                title="Zoom Out"
+                aria-label="Zoom Out"
+              >
+                −
+              </button>
+              <button
+                type="button"
+                onClick={() => setAutoRotate(!autoRotate)}
+                className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs transition-colors ${
+                  autoRotate
+                    ? 'bg-makhana-100 text-makhana-800 font-bold'
+                    : 'text-earth-600 hover:bg-earth-100'
+                }`}
+                title={autoRotate ? 'Pause Rotation' : 'Resume Rotation'}
+                aria-label="Toggle Auto Rotation"
+              >
+                ↻
+              </button>
+              <button
+                type="button"
+                onClick={handleReset}
+                className="w-8 h-8 rounded-lg flex items-center justify-center text-xs text-earth-600 hover:bg-earth-100 transition-colors"
+                title="Reset View"
+                aria-label="Reset View"
+              >
+                ↺
+              </button>
+            </div>
+          </>
+        ) : (
+          renderStaticPhoto
+        )}
 
-          <CameraController zoomTrigger={zoomAction} />
-
-          <OrbitControls
-            ref={controlsRef}
-            enableZoom={true}
-            minDistance={2.5}
-            maxDistance={7.0}
-            autoRotate={autoRotate}
-            autoRotateSpeed={3.5}
-            maxPolarAngle={Math.PI / 1.3}
-            minPolarAngle={Math.PI / 4}
-          />
-        </Canvas>
-
-        {/* Floating Controls Overlay (Top Right) */}
-        <div className="absolute top-4 right-4 z-20 flex flex-col gap-1.5 bg-white/90 backdrop-blur-md p-1.5 rounded-xl border border-earth-200/80 shadow-sm">
-          <button
-            type="button"
-            onClick={() => handleZoom('in')}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-earth-700 hover:bg-earth-100 font-bold text-base transition-colors"
-            title="Zoom In"
-            aria-label="Zoom In"
-          >
-            +
-          </button>
-          <button
-            type="button"
-            onClick={() => handleZoom('out')}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-earth-700 hover:bg-earth-100 font-bold text-base transition-colors"
-            title="Zoom Out"
-            aria-label="Zoom Out"
-          >
-            −
-          </button>
-          <button
-            type="button"
-            onClick={() => setAutoRotate(!autoRotate)}
-            className={`w-8 h-8 rounded-lg flex items-center justify-center text-xs transition-colors ${
-              autoRotate ? 'bg-makhana-100 text-makhana-800 font-bold' : 'text-earth-600 hover:bg-earth-100'
-            }`}
-            title={autoRotate ? 'Pause Rotation' : 'Resume Rotation'}
-            aria-label="Toggle Auto Rotation"
-          >
-            ↻
-          </button>
-          <button
-            type="button"
-            onClick={handleReset}
-            className="w-8 h-8 rounded-lg flex items-center justify-center text-xs text-earth-600 hover:bg-earth-100 transition-colors"
-            title="Reset View"
-            aria-label="Reset View"
-          >
-            ↺
-          </button>
-        </div>
+        {/* View Toggle on Desktop (3D vs Studio Photo) */}
+        {isDesktop && (
+          <div className="absolute top-4 left-4 z-20 flex items-center bg-white/90 backdrop-blur-md p-1 rounded-xl border border-earth-200 shadow-sm">
+            <button
+              type="button"
+              onClick={() => setViewMode('3d')}
+              className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                viewMode === '3d'
+                  ? 'bg-makhana-600 text-white shadow-xs'
+                  : 'text-earth-700 hover:bg-earth-100'
+              }`}
+            >
+              ✨ 3D View
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode('photo')}
+              className={`px-3 py-1 text-xs font-semibold rounded-lg transition-all ${
+                viewMode === 'photo'
+                  ? 'bg-makhana-600 text-white shadow-xs'
+                  : 'text-earth-700 hover:bg-earth-100'
+              }`}
+            >
+              📷 Studio Photo
+            </button>
+          </div>
+        )}
 
         {/* Interactive Hotspot Details Popup (When Selected) */}
         {activeHotspot && (
-          <div className="absolute bottom-16 left-4 right-4 z-20 max-w-sm mx-auto bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-makhana-300 shadow-xl animate-fade-in space-y-1">
+          <div className="absolute bottom-4 left-4 right-4 z-20 max-w-sm mx-auto bg-white/95 backdrop-blur-md p-4 rounded-2xl border border-makhana-300 shadow-xl animate-fade-in space-y-1">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-xl">{activeHotspot.icon}</span>
@@ -250,7 +258,7 @@ export default function ProductViewer({
         )}
       </div>
 
-      {/* Feature 3: Interactive Hotspots Strip Beneath Canvas */}
+      {/* Interactive Hotspots Strip Beneath Visual */}
       <div className="px-4 py-3 bg-white/90 backdrop-blur-sm border-t border-earth-200/70 z-10">
         <div className="flex items-center justify-between gap-1 sm:gap-2 overflow-x-auto no-scrollbar">
           {hotspots.map((h) => {

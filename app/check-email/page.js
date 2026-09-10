@@ -64,7 +64,7 @@ function CheckEmailContent() {
           </h1>
 
           <p className="text-gray-600 mb-2">
-            We've sent a verification email to:
+            We&apos;ve sent a verification email to:
           </p>
 
           <p className="text-lg font-medium text-blue-600 mb-6">
@@ -73,13 +73,13 @@ function CheckEmailContent() {
 
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 text-left">
             <p className="text-sm text-gray-700">
-              <strong>What's next?</strong>
+              <strong>What&apos;s next?</strong>
             </p>
             <ul className="text-sm text-gray-600 mt-2 space-y-2">
               <li>✓ Open your email inbox</li>
               <li>✓ Look for an email from Mithila Makhana</li>
-              <li>✓ Click the "Verify Email" button</li>
-              <li>✓ You'll be automatically signed in</li>
+              <li>✓ Click the &quot;Verify Email&quot; button</li>
+              <li>✓ You&apos;ll be automatically signed in</li>
             </ul>
           </div>
 

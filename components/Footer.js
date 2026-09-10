@@ -101,54 +101,46 @@ export default function Footer() {
             <ul className="space-y-2.5 text-sm text-earth-300">
               <li>
                 <Link href="/cart" className="hover:text-white transition-colors">
-                  Shopping Bag & Checkout
+                  Shopping Bag & Order Form
                 </Link>
               </li>
               <li>
-                <Link href="/engineering" className="text-makhana-300 hover:text-white transition-colors font-medium">
-                  Architecture & Engineering
-                </Link>
-              </li>
-              <li>
-                <span className="text-earth-400">
-                  Shipping: All-India Free Delivery
+                <span className="text-earth-300">
+                  🚚 Free Shipping across India
                 </span>
               </li>
               <li>
-                <span className="text-earth-400">
-                  Returns: 7-Day Replacement
+                <span className="text-earth-300">
+                  🛡️ 7-Day Freshness Guarantee
+                </span>
+              </li>
+              <li>
+                <span className="text-earth-300">
+                  📜 FSSAI Lic. 10021033000124
                 </span>
               </li>
               <li>
                 <a href="mailto:shivamgarg1515@gmail.com" className="hover:text-white transition-colors">
-                  Contact: shivamgarg1515@gmail.com
+                  ✉️ shivamgarg1515@gmail.com
                 </a>
               </li>
             </ul>
           </div>
         </div>
 
-        {/* Bottom Bar with Engineering Attribution */}
+        {/* Bottom Bar */}
         <div className="pt-8 border-t border-earth-900 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-earth-400">
           <p>
             © {currentYear} Mithila Makhana. All rights reserved. Direct from Darbhanga, Bihar.
           </p>
 
           <div className="flex items-center gap-6">
-            <Link href="/engineering" className="text-earth-300 hover:text-white transition-colors">
-              /engineering
+            <Link href="#faq" className="text-earth-300 hover:text-white transition-colors">
+              FAQ
             </Link>
-            <span className="text-earth-400">Privacy</span>
-            <span className="text-earth-400">Terms</span>
-            <a
-              href="https://github.com/shivam349/mithila-makhana-3d-store"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-makhana-400 hover:text-makhana-300 font-medium transition-colors inline-flex items-center gap-1.5"
-            >
-              <span>GitHub Repository</span>
-              <span>↗</span>
-            </a>
+            <span className="text-earth-400">Privacy Policy</span>
+            <span className="text-earth-400">Terms of Service</span>
+            <span className="text-earth-400">GI Certified</span>
           </div>
         </div>
       </div>

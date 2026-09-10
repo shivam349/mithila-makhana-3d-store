@@ -1,14 +1,12 @@
 import HeroSection from '@/components/HeroSection';
 import ProductShowcase from '@/components/ProductShowcase';
-import ChooseYourMakhana from '@/components/ChooseYourMakhana';
 import BuildYourBox from '@/components/BuildYourBox';
 import MakhanaSizeLab from '@/components/MakhanaSizeLab';
 import NutritionVisualizer from '@/components/NutritionVisualizer';
-import WhyChooseUsSection from '@/components/WhyChooseUsSection';
+import WhyMithilaSection from '@/components/WhyMithilaSection';
 import FromMithilaToYourTable from '@/components/FromMithilaToYourTable';
 import TestimonialSection from '@/components/TestimonialSection';
 import FAQSection from '@/components/FAQSection';
-import WhyMithilaSection from '@/components/WhyMithilaSection';
 import CTABanner from '@/components/CTABanner';
 import Footer from '@/components/Footer';
 
@@ -21,37 +19,31 @@ export default function Home() {
       {/* 2. OUR ARTISAN MAKHANA COLLECTION */}
       <ProductShowcase />
 
-      {/* 3. CHOOSE YOUR MAKHANA */}
-      <ChooseYourMakhana />
-
-      {/* 4. BUILD YOUR MAKHANA BOX */}
+      {/* 3. BUILD YOUR MAKHANA BOX (AOV Lever & Bundling) */}
       <BuildYourBox />
 
-      {/* 5. MAKHANA GRADE GUIDE */}
+      {/* 4. MAKHANA GRADE GUIDE */}
       <MakhanaSizeLab />
 
-      {/* 6. NUTRITION AT A GLANCE */}
+      {/* 5. NUTRITION AT A GLANCE */}
       <NutritionVisualizer />
 
-      {/* 7. WHY CHOOSE MITHILA MAKHANA */}
-      <WhyChooseUsSection />
-
-      {/* 8. FROM MITHILA TO YOUR TABLE */}
-      <FromMithilaToYourTable />
-
-      {/* 9. CUSTOMER REVIEWS */}
-      <TestimonialSection />
-
-      {/* 10. FAQ */}
-      <FAQSection />
-
-      {/* 11. MITHILA STORY */}
+      {/* 6. MITHILA HERITAGE & GI PROVENANCE */}
       <WhyMithilaSection />
 
-      {/* 12. FINAL CTA */}
+      {/* 7. FROM MITHILA TO YOUR TABLE (Farm-to-Table Journey) */}
+      <FromMithilaToYourTable />
+
+      {/* 8. CUSTOMER REVIEWS */}
+      <TestimonialSection />
+
+      {/* 9. FAQ */}
+      <FAQSection />
+
+      {/* 10. FINAL CTA */}
       <CTABanner />
 
-      {/* 13. FOOTER */}
+      {/* 11. FOOTER */}
       <Footer />
     </main>
   );

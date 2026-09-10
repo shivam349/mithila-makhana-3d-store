@@ -22,6 +22,14 @@ const getProductSlug = (name = '') => {
   return 'classic';
 };
 
+const getProductRating = (name = '') => {
+  const n = (name || '').toLowerCase();
+  if (n.includes('organic')) return { score: '4.9', count: 186 };
+  if (n.includes('masala')) return { score: '4.8', count: 98 };
+  if (n.includes('honey')) return { score: '4.7', count: 64 };
+  return { score: '4.9', count: 142 };
+};
+
 export default function ProductShowcase() {
   const enrichProduct = (product) => {
     return {
@@ -218,20 +226,29 @@ export default function ProductShowcase() {
                       : 'Lightly Salted'}
                   </div>
 
-                  {/* 3D view badge */}
-                  <div className="absolute bottom-3 left-3 bg-earth-900/80 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1 opacity-90 group-hover:opacity-100 transition-opacity">
-                    <span>✨</span>
-                    <span>3D Interactive</span>
+                  {/* Product quality badge */}
+                  <div className="absolute bottom-3 left-3 bg-earth-900/85 backdrop-blur-sm text-white px-2.5 py-1 rounded-full text-[10px] font-medium flex items-center gap-1">
+                    <span>🌱</span>
+                    <span>0% Oil Roasted</span>
                   </div>
                 </Link>
 
                 {/* Card Content Body */}
                 <div className="p-5 flex-1 flex flex-col justify-between space-y-4">
                   <div>
-                    <div className="flex items-center gap-1 text-amber-500 text-xs mb-1.5">
-                      <span>★★★★★</span>
-                      <span className="text-earth-600 font-semibold ml-1">4.8</span>
-                    </div>
+                    {(() => {
+                      const rating = getProductRating(product.name);
+                      return (
+                        <div
+                          className="flex items-center gap-1 text-amber-500 text-xs mb-1.5"
+                          aria-label={`Rated ${rating.score} out of 5 stars based on ${rating.count} reviews`}
+                        >
+                          <span aria-hidden="true">★★★★★</span>
+                          <span className="text-earth-700 font-semibold ml-1">{rating.score}</span>
+                          <span className="text-earth-400 text-[11px]">({rating.count})</span>
+                        </div>
+                      );
+                    })()}
 
                     <Link href={`/product/${productSlug}`}>
                       <h3 className="text-lg font-serif font-bold text-earth-900 group-hover:text-makhana-700 transition-colors line-clamp-1">

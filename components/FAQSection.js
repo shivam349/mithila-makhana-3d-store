@@ -28,8 +28,16 @@ const faqs = [
     a: 'We dispatch all orders fresh within 24 to 48 hours. Standard domestic delivery typically takes 3 to 5 business days depending on your location in India.',
   },
   {
+    q: 'Are your products FSSAI certified?',
+    a: 'Yes. Our processing, sorting, and packaging facilities strictly adhere to national food safety guidelines under FSSAI Registration No. 10021033000124.',
+  },
+  {
+    q: 'What is your return and replacement policy?',
+    a: 'We offer a hassle-free 7-day replacement guarantee on all sealed pouches if your package arrives compromised, damaged, or unsealed during transit. Contact our support team with your order details.',
+  },
+  {
     q: 'How can I contact customer support?',
-    a: 'You can reach us directly via email at shivamgarg1515@gmail.com for order inquiries, bulk gifting, or product support. Our team responds promptly to all customer queries.',
+    a: 'You can reach us directly via email at shivamgarg1515@gmail.com for order tracking, bulk gifting, or product support. Our team responds within 24 hours.',
   },
 ];
 

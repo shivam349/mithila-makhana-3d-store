@@ -39,9 +39,9 @@ export default function Navigation() {
     { label: 'Products', href: '/#products' },
     { label: 'Choose', href: '/#choose' },
     { label: 'Build Box', href: '/#build-box' },
+    { label: 'Grade Guide', href: '/#grade-guide' },
     { label: 'Our Story', href: '/#brand-story' },
-    { label: 'Journey', href: '/#journey' },
-    { label: 'Engineering', href: '/engineering', isBadge: true },
+    { label: 'FAQ', href: '/#faq' },
   ];
 
   return (

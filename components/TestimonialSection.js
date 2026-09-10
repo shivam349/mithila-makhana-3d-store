@@ -111,19 +111,19 @@ export default function TestimonialSection() {
           ))}
         </div>
 
-        {/* Rating Metrics Bar */}
+        {/* Authenticity & Quality Metrics Bar */}
         <div className="mt-10 sm:mt-12 pt-8 border-t border-earth-200/60 flex flex-wrap justify-center gap-8 sm:gap-16">
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-serif font-bold text-earth-900">4.9/5</p>
-            <p className="text-xs sm:text-sm text-earth-600 font-medium mt-1">Average Rating</p>
+            <p className="text-3xl sm:text-4xl font-serif font-bold text-earth-900">4.8/5</p>
+            <p className="text-xs sm:text-sm text-earth-600 font-medium mt-1">Average Customer Rating</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-serif font-bold text-earth-900">2,000+</p>
-            <p className="text-xs sm:text-sm text-earth-600 font-medium mt-1">Happy Customers</p>
+            <p className="text-3xl sm:text-4xl font-serif font-bold text-earth-900">100%</p>
+            <p className="text-xs sm:text-sm text-earth-600 font-medium mt-1">GI-Tagged Mithila Origin</p>
           </div>
           <div className="text-center">
-            <p className="text-3xl sm:text-4xl font-serif font-bold text-earth-900">10,000+</p>
-            <p className="text-xs sm:text-sm text-earth-600 font-medium mt-1">Orders Delivered</p>
+            <p className="text-3xl sm:text-4xl font-serif font-bold text-earth-900">0%</p>
+            <p className="text-xs sm:text-sm text-earth-600 font-medium mt-1">Added Oils or Preservatives</p>
           </div>
         </div>
       </div>

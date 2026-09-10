@@ -56,15 +56,19 @@ export default function WhyChooseUsSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 px-6"
-      style={{ background: 'linear-gradient(180deg, #FFF8F0 0%, #FDF2E6 100%)' }}
+      className="py-16 sm:py-20 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100"
     >
       <div className="max-w-7xl mx-auto">
         {/* Header */}
-        <div className="text-center mb-16">
-          <h2 className="section-title">Why Choose Our Makhana</h2>
-          <p className="section-subtitle max-w-2xl mx-auto">
-            We're committed to delivering premium quality makhana with integrity and care
+        <div className="text-center mb-12 space-y-2">
+          <span className="inline-block text-[11px] font-bold tracking-widest uppercase text-makhana-700 bg-makhana-50 px-3 py-1 rounded-full border border-makhana-200">
+            OUR PROMISE
+          </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-earth-900 tracking-tight">
+            Why Choose Mithila Makhana
+          </h2>
+          <p className="text-sm text-earth-600 max-w-xl mx-auto">
+            Direct from North Bihar wetlands, naturally slow-roasted with zero oil and uncompromised purity.
           </p>
         </div>
 

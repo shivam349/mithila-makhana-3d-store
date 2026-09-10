@@ -63,15 +63,18 @@ export default function TestimonialSection() {
   return (
     <section
       ref={containerRef}
-      className="py-24 px-6 bg-gradient-to-b from-makhana-50 to-white"
+      className="py-16 sm:py-20 px-4 sm:px-6 bg-[#FFFDF9] border-t border-earth-100"
     >
       <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-20">
-          <h2 className="text-5xl font-bold bg-gradient-to-r from-makhana-700 to-earth-600 bg-clip-text text-transparent mb-4">
-            Loved by Customers
+        <div className="text-center mb-12 space-y-2">
+          <span className="inline-block text-[11px] font-bold tracking-widest uppercase text-makhana-700 bg-makhana-50 px-3 py-1 rounded-full border border-makhana-200">
+            TESTIMONIALS
+          </span>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-bold text-earth-900 tracking-tight">
+            Customer Reviews
           </h2>
-          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-            Thousands of happy customers trust us for their daily dose of authentic Mithila makhana
+          <p className="text-sm text-earth-600 max-w-xl mx-auto">
+            Read what our community has to say about the authentic taste and crunch of our slow-roasted Mithila foxnuts.
           </p>
         </div>
 

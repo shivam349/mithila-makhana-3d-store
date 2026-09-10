@@ -105,6 +105,11 @@ export default function Footer() {
                 </a>
               </li>
               <li>
+                <Link href="/engineering" className="text-makhana-400 hover:text-white transition-colors font-medium">
+                  Architecture & Engineering
+                </Link>
+              </li>
+              <li>
                 <span className="text-earth-400">
                   Shipping: All India Free
                 </span>
@@ -130,6 +135,9 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-6">
+            <Link href="/engineering" className="text-earth-400 hover:text-white transition-colors">
+              /engineering
+            </Link>
             <span className="text-earth-400">Privacy</span>
             <span className="text-earth-400">Terms</span>
             <a
